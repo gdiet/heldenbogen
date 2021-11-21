@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html lang="de">
+  <head>
+    <title>Heldenbogen</title>
+    <style>
+      input { width: 3em; }
+    </style>
+  </head>
+  <body>
+    <p>DSA 5 Heldenbogen</p>
+    <p>
+      MU <input id="MU" type="number" min="8" max="19" required> -
+      KL <input id="KL" type="number" min="8" max="19" required> -
+      IN <input id="IN" type="number" min="8" max="19" required> -
+      CH <input id="CH" type="number" min="8" max="19" required> -
+      FF <input id="FF" type="number" min="8" max="19" required> -
+      GE <input id="GE" type="number" min="8" max="19" required> -
+      KO <input id="KO" type="number" min="8" max="19" required> -
+      KK <input id="KK" type="number" min="8" max="19" required> -
+      AP: <span id="GWAP"></span>
+    </p>
+    <p>
+      <button id="SAVE">Speichern</button>
+    </p>
+    <p>
+      <input type="file" id="LOAD">Laden</input>
+    </p>
+  </body>
+  <script>
+    
+    class Value {
+      constructor(initial) { this._observers = []; this.set(initial) }
+      set(value) { this._value = value; this._observers.forEach(f => f(value)); return this }
+      get() { return this._value  }
+      observe(observer) { this._observers.push(observer); observer(this.get()); return this }
+      linkNumberInput(inputId) {
+        let input = document.getElementById(inputId)
+        input.addEventListener("input", e => {
+          if (e.target.validity.valid) this.set(parseInt(e.target.value))
+          else e.target.value = this.get()
+        })
+        this.observe(v => { input.value = v })
+        return this
+      }
+    }
+
+    const MU = new Value(10).linkNumberInput("MU")
+    const KL = new Value(10).linkNumberInput("KL")
+    const IN = new Value(10).linkNumberInput("IN")
+    const CH = new Value(10).linkNumberInput("CH")
+    const FF = new Value(10).linkNumberInput("FF")
+    const GE = new Value(10).linkNumberInput("GE")
+    const KO = new Value(10).linkNumberInput("KO")
+    const KK = new Value(10).linkNumberInput("KK")
+
+    const APfuerGW = [0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390]
+    const GWAP = new Value(0).observe(v => document.getElementById("GWAP").textContent = v)
+    function gwap() { return APfuerGW[MU.get()] +
+                             APfuerGW[KL.get()] +
+                             APfuerGW[IN.get()] +
+                             APfuerGW[CH.get()] +
+                             APfuerGW[FF.get()] +
+                             APfuerGW[GE.get()] +
+                             APfuerGW[KO.get()] +
+                             APfuerGW[KK.get()]
+    }
+
+    MU.observe(_ => GWAP.set(gwap()))
+    KL.observe(_ => GWAP.set(gwap()))
+    IN.observe(_ => GWAP.set(gwap()))
+    CH.observe(_ => GWAP.set(gwap()))
+    FF.observe(_ => GWAP.set(gwap()))
+    GE.observe(_ => GWAP.set(gwap()))
+    KO.observe(_ => GWAP.set(gwap()))
+    KK.observe(_ => GWAP.set(gwap()))
+
+    document.getElementById("SAVE").addEventListener('click', () => {
+      const anchor = document.createElement('a')
+      const file   = new Blob([JSON.stringify({hello: "world"})], {type : 'application/json'})
+
+      anchor.href = URL.createObjectURL(file)
+      anchor.download = "dsa.json"
+      anchor.click()
+      
+      URL.revokeObjectURL(anchor.href)
+    })
+
+    document.getElementById("LOAD").onchange = e => {
+      const reader = new FileReader()
+      reader.onload = () => { alert(JSON.parse(reader.result).hello) }
+      reader.readAsText(e.target.files[0])
+    }
+  </script>
+</html>
