@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html lang="de">
+  <head>
+    <title>Heldenbogen</title>
+    <style>
+      input { width: 3em; }
+    </style>
+  </head>
+  <body>
+    <p>DSA 5 Heldenbogen</p>
+    <p>
+      MU <input id="MU" type="number" min="8" max="19" required> -
+      KL <input id="KL" type="number" min="8" max="19" required> -
+      IN <input id="IN" type="number" min="8" max="19" required> -
+      CH <input id="CH" type="number" min="8" max="19" required> -
+      FF <input id="FF" type="number" min="8" max="19" required> -
+      GE <input id="GE" type="number" min="8" max="19" required> -
+      KO <input id="KO" type="number" min="8" max="19" required> -
+      KK <input id="KK" type="number" min="8" max="19" required> -
+      AP: <span id="GWAP"></span>
+    </p>
+    <p>
+      <button id="SAVE">Speichern</button>
+    </p>
+    <p>
+      <input type="file" id="LOAD">Laden</input>
+    </p>
+  </body>
+  <script src="./script/bogen.js" />
+</html>
