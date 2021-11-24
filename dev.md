@@ -3,7 +3,10 @@
     
     // https://www.digitalocean.com/community/tutorials/typescript-new-project
     npx tsc --init
-
+    
+    // compile on changes
+    npx tsc -w
+    
     // https://www.npmjs.com/package/serve
     npx serve public
     
