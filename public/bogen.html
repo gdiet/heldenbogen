@@ -4,7 +4,8 @@
   <head>
     <title>Heldenbogen</title>
     <style>
-      input { width: 3em; }
+      input { width: 3em }
+      #FILENAME { width: auto }
     </style>
   </head>
   <body>
@@ -21,10 +22,12 @@
       AP: <span id="GWAP"></span>
     </p>
     <p>
+      <input id="FILENAME" type="text" value="Heldenbogen.json">
       <button id="SAVE">Speichern</button>
     </p>
     <p>
-      <input type="file" id="LOAD">Laden</input>
+      <button onclick="document.getElementById('LOAD').click()">Laden</button>
+      <input type="file" id="LOAD" style="display: none">
     </p>
   </body>
   <script type="module" src="./script/bogen.js"></script>
