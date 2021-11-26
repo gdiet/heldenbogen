@@ -23,9 +23,23 @@ function show_ap_summe_gw(): void {
             .reduce((a,b) => a+b)
     const gwap = document.getElementById("GWAP")
     if (gwap) gwap.textContent = `${ap}`
-    else console.warn(`Can't show Summe AP für Grundwerte - no HTMLInputElement for ID 'GWAP'`)
+    else console.warn(`Can't show Summe AP für Grundwerte - no HTMLElement for ID 'GWAP'`)
 }
 grundwerte.forEach(grundwert => vv.observe(grundwert, _ => show_ap_summe_gw()))
+
+const saveButton = document.getElementById("SAVE")
+if (saveButton) {
+    saveButton.addEventListener('click', () => {
+        const anchor = document.createElement('a')
+        const file   = new Blob([JSON.stringify({values: vv.asArray()})], {type : 'application/json'})
+    
+        anchor.href = URL.createObjectURL(file)
+        anchor.download = "dsa.json"
+        anchor.click()
+        
+        URL.revokeObjectURL(anchor.href)
+      })
+} else console.warn(`Can't bind Speichern button - no HTMLElement for ID 'SAVE'`)
 
 
 // console.log(vv.val("MU"))
