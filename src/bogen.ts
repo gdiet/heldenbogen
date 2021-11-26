@@ -1,6 +1,6 @@
 import * as bind from "./bind/bind.js"
 import * as data from "./data/data.js"
-import * as dsa5 from "./dsa5/Grundwerte.js"
+import * as dsa5 from "./dsa5/dsa5.js"
 
 const Werte = new data.Values
 
