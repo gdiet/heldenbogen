@@ -28,21 +28,27 @@ function show_ap_summe_gw(): void {
 grundwerte.forEach(grundwert => vv.observe(grundwert, _ => show_ap_summe_gw()))
 
 const saveButton = document.getElementById("SAVE")
-if (saveButton) {
-    saveButton.addEventListener('click', () => {
-        const anchor = document.createElement('a')
-        const file   = new Blob([JSON.stringify({values: vv.asArray()})], {type : 'application/json'})
-    
-        anchor.href = URL.createObjectURL(file)
-        anchor.download = "dsa.json"
-        anchor.click()
-        
-        URL.revokeObjectURL(anchor.href)
-      })
-} else console.warn(`Can't bind Speichern button - no HTMLElement for ID 'SAVE'`)
+if (saveButton) saveButton.addEventListener('click', () => {
+    const anchor = document.createElement('a')
+    const file   = new Blob([JSON.stringify({values: vv.asArray()})], {type : 'application/json'})
 
+    anchor.href = URL.createObjectURL(file)
+    anchor.download = "dsa.json"
+    anchor.click()
 
-// console.log(vv.val("MU"))
-// vv.set("MU", 4)
-// console.log(vv._getOrInit("MU")[0])
-// console.log(vv.asArray())
+    URL.revokeObjectURL(anchor.href)
+}); else console.warn(`Can't bind Speichern button - no HTMLElement for ID 'SAVE'`)
+
+const loadButton = document.getElementById("LOAD")
+if (loadButton instanceof HTMLInputElement) {
+    loadButton.onchange = _ => {
+        if (loadButton.files && loadButton.files[0]) {
+            const reader = new FileReader()
+            reader.onload = _ => {
+                const read = reader.result?.toString() || "{}"
+                console.log(JSON.parse(read))
+            }
+            reader.readAsText(loadButton.files[0])
+        }
+    }
+}
