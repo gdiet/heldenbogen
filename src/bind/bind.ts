@@ -1,6 +1,8 @@
-import { Values } from "../data/values";
+import * as data from "../data/data";
+export * from "./load.js"
+export * from "./save.js"
 
-export function bindNumberInput(values: Values, label: string, initialValue: number): void {
+export function bindNumberInput(values: data.Values, label: string, initialValue: number): void {
     const input = document.getElementById(label)
     if (input instanceof HTMLInputElement) {
         values.set(label, initialValue)
@@ -9,5 +11,11 @@ export function bindNumberInput(values: Values, label: string, initialValue: num
             if (input.validity.valid) values.set(label, parseInt(input.value))
             else input.value = `${values.val(label)}`
           })
-    } else console.warn(`Can't bind - no HTMLInputElement for ID ${label}`)
+    } else console.warn(`Can't bind - no HTMLInputElement for ID '${label}'`)
+}
+
+export function setNumberContent(id: string, number: number): void {
+    const element = document.getElementById(id)
+    if (element) element.textContent = `${number}`
+    else console.warn(`Can't show number - no HTMLElement for ID '${id}'`)
 }
