@@ -18,7 +18,7 @@ function show_ap_summe_gw(): void {
     if (gwap) gwap.textContent = `${ap}`
     else console.warn(`Can't show Summe AP für Grundwerte - no HTMLInputElement for ID 'GWAP'`)
 }
-grundwerte.forEach(grundwert => vv.observe(grundwert, _ => show_ap_summe_gw())
+grundwerte.forEach(grundwert => vv.observe(grundwert, _ => show_ap_summe_gw()))
 
 
 // console.log(vv.val("MU"))
