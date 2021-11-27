@@ -2,10 +2,13 @@
 <meta charset="UTF-8">
 <html lang="de">
   <head>
+    <link rel="icon" href="Das_schwarze_Auge.png" type="image/png">
     <title>Heldenbogen</title>
     <style>
       input { width: 3em }
       #FILENAME { width: auto }
+      table { text-align: left; border-collapse: collapse }
+      td, th { border: 1px solid gray; padding: 1px 5px; }
     </style>
   </head>
   <body>
@@ -20,6 +23,17 @@
       KO <input id="KO" type="number" min="8" max="19" required> -
       KK <input id="KK" type="number" min="8" max="19" required> -
       AP: <span id="GWAP"></span>
+    </p>
+    <p>
+      <table id="Körpertalente">
+        <tr>
+          <th>Talent</th>
+          <th>Probe</th>
+          <th>BE</th>
+          <th>SF</th>
+          <th>FW</th>
+        </tr>
+      </table>
     </p>
     <p>
       <input id="FILENAME" type="text" value="Heldenbogen.json">
