@@ -10,3 +10,6 @@
     // https://www.npmjs.com/package/serve
     npx serve public
     
+    // https://nodejs.dev/learn/the-package-lock-json-file
+    // recreate the npm modules in a fresh clone
+    npm ci
