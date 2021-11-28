@@ -1,8 +1,17 @@
 import * as data from "../data/data";
 
 export const Grundwerte = ["MU","KL","IN","CH","FF","GE","KO","KK"]
+export const Abenteuerpunkte = "AP"
+export const AP_Grundwerte = "GWAP"
+export const AP_Summanden = [AP_Grundwerte]
 
 const ap_fuer_gw = [0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390]
+
+export function Summe_AP(values: data.Values): number {
+    return AP_Summanden
+        .map(label => values.val(label))
+        .reduce((a,b) => a+b)
+}
 
 function AP_Grundwert(value: number): number {
     const raw = ap_fuer_gw[value]

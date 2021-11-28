@@ -5,7 +5,10 @@ import * as dsa5 from "./dsa5/dsa5.js"
 const Werte = new data.Values
 
 dsa5.Grundwerte.forEach(Grundwert => bind.bindNumberInput(Werte, Grundwert, 10))
-dsa5.Grundwerte.forEach(Grundwert => Werte.observe(Grundwert, _ => bind.setNumberContent("GWAP", dsa5.Summe_AP_Grundwerte(Werte))))
+dsa5.Grundwerte.forEach(Grundwert => Werte.observe(Grundwert, _ => Werte.set(dsa5.AP_Grundwerte, dsa5.Summe_AP_Grundwerte(Werte))))
+Werte.observe(dsa5.AP_Grundwerte, gwap => bind.setNumberContent(dsa5.AP_Grundwerte,gwap))
+dsa5.AP_Summanden.forEach(Summand => Werte.observe(Summand, _ => Werte.set(dsa5.Abenteuerpunkte, dsa5.Summe_AP(Werte))))
+Werte.observe(dsa5.Abenteuerpunkte, ap => bind.setNumberContent(dsa5.Abenteuerpunkte, ap))
 bind.bindSaveButton(Werte)
 bind.bindLoadButton(Werte)
 
