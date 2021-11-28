@@ -5,7 +5,7 @@ export const Abenteuerpunkte = "AP"
 export const AP_Grundwerte = "GWAP"
 export const AP_Summanden = [AP_Grundwerte]
 
-const ap_fuer_gw = [0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390]
+const ap_für_gw = [0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390]
 
 export function Summe_AP(values: data.Values): number {
     return AP_Summanden
@@ -14,7 +14,7 @@ export function Summe_AP(values: data.Values): number {
 }
 
 function AP_Grundwert(value: number): number {
-    const raw = ap_fuer_gw[value]
+    const raw = ap_für_gw[value]
     if (raw || raw == 0) return raw; else {
         console.warn(`Can't calculate AP für Grundwert ${value}`)
         return 999999
