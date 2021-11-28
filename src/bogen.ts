@@ -12,14 +12,9 @@ Werte.observe(dsa5.Abenteuerpunkte, ap => bind.setNumberContent(dsa5.Abenteuerpu
 bind.bindSaveButton(Werte)
 bind.bindLoadButton(Werte)
 
-const Körpertalente: [string, string, boolean, number][] = [
-  ["Körperbeherrschung", "GE/GE/KO", true, 4],
-  ["Taschendiebstahl",   "MU/FF/GE", true, 2],
-]
-
 const kt = document.getElementById("Körpertalente")
 if (kt instanceof HTMLTableElement) {
-  Körpertalente.forEach(([Name, Probe, Behinderung, Faktor]) => {
+  dsa5.Körpertalente.forEach(([Name, Probe, Behinderung, Faktor]) => {
     const row = kt.insertRow()
     row.insertCell().textContent = Name
     row.insertCell().textContent = Probe
@@ -31,6 +26,8 @@ if (kt instanceof HTMLTableElement) {
     input.min = "0"
     input.max = "20"
     bind.bindNumberInputElement(Werte, Name, input, 0)
+    Werte.observe(Name, _ => Werte.set(dsa5.AP_Körpertalente, dsa5.Summe_AP_Talente(Werte, dsa5.Körpertalente)))
     row.insertCell().appendChild(input)
   })
 }
+Werte.observe(dsa5.AP_Körpertalente, ap => bind.setNumberContent(dsa5.AP_Körpertalente,ap))
