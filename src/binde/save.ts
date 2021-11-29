@@ -1,4 +1,4 @@
-import * as data from "../data/data";
+import * as data from "../daten/data";
 
 function getFileName(): string {
     const fileNameInput = document.getElementById("FILENAME")
@@ -9,7 +9,7 @@ function getFileName(): string {
     }
 }
 
-export function bindSaveButton(values: data.Values) {
+export function speichern(values: data.Werte) {
     const saveButton = document.getElementById("SAVE")
     if (saveButton) saveButton.addEventListener('click', _ => {
         const content = { values: values.asArray() }

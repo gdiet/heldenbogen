@@ -1,6 +1,6 @@
 export type Observer = (value: number) => void
 
-export class Values {
+export class Werte {
     private readonly values: Map<string, [number, Observer[]]> = new Map()
 
     private getOrInit(key: string): [number, Observer[]] {
@@ -12,12 +12,12 @@ export class Values {
         return this.getOrInit(key)[0]
     }
 
-    set(key: string, value: number): void {
+    setze(key: string, value: number): void {
         const entry = this.getOrInit(key)
         entry[0] = value; entry[1].forEach(observer => observer(value))
     }
 
-    observe(key: string, observer: Observer): void {
+    beobachte(key: string, observer: Observer): void {
         const entry = this.getOrInit(key)
         entry[1].push(observer); observer(entry[0])
     }

@@ -1,10 +1,10 @@
-import * as data from "../data/data";
+import * as data from "../daten/data";
 
 type FileContent = {
     values: [string, number][]
 }
 
-export function bindLoadButton(values: data.Values) {
+export function laden(values: data.Werte) {
     const loadButton = document.getElementById("LOAD")
     if (loadButton instanceof HTMLInputElement) {
         loadButton.onchange = _ => {
@@ -13,7 +13,7 @@ export function bindLoadButton(values: data.Values) {
                 reader.onload = _ => {
                     const read = reader.result?.toString() || "{}"
                     const data: FileContent = JSON.parse(read)
-                    data.values.forEach(kv => values.set(kv[0], kv[1]))
+                    data.values.forEach(kv => values.setze(kv[0], kv[1]))
                 }
                 reader.readAsText(loadButton.files[0])
             } else console.warn("Laden button did not have expected file content")

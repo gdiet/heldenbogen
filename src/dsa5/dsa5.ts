@@ -1,4 +1,4 @@
-import * as data from "../data/data";
+import * as data from "../daten/data";
 
 export const Grundwerte = ["MU","KL","IN","CH","FF","GE","KO","KK"]
 export const Abenteuerpunkte = "AP"
@@ -16,7 +16,7 @@ export const Körpertalente: Talente = [
     ["Taschendiebstahl",   "MU/FF/GE", true, 2],
 ]
   
-export function Summe_AP(values: data.Values): number {
+export function Summe_AP(values: data.Werte): number {
     return AP_Summanden
         .map(label => values.val(label))
         .reduce((a,b) => a+b)
@@ -38,14 +38,14 @@ function AP_Talent(value: number): number {
     }
 }
 
-export function Summe_AP_Grundwerte(values: data.Values): number {
+export function Summe_AP_Grundwerte(values: data.Werte): number {
     return Grundwerte
         .map(label => values.val(label))
         .map(value => AP_Grundwert(value))
         .reduce((a,b) => a+b)
 }
 
-export function Summe_AP_Talente(values: data.Values, talente: Talente): number {
+export function Summe_AP_Talente(values: data.Werte, talente: Talente): number {
     return talente
         .map(([label, _1, _2, factor]) => AP_Talent(values.val(label)) * factor)
         .reduce((a,b) => a+b)

@@ -1,16 +1,16 @@
-import * as bind from "./bind/bind.js"
-import * as data from "./data/data.js"
+import * as binde from "./binde/binde.js"
+import * as daten from "./daten/data.js"
 import * as dsa5 from "./dsa5/dsa5.js"
 
-const Werte = new data.Values
+const Werte = new daten.Werte
 
-dsa5.Grundwerte.forEach(Grundwert => bind.bindNumberInput(Werte, Grundwert, 10))
-dsa5.Grundwerte.forEach(Grundwert => Werte.observe(Grundwert, _ => Werte.set(dsa5.AP_Grundwerte, dsa5.Summe_AP_Grundwerte(Werte))))
-Werte.observe(dsa5.AP_Grundwerte, gwap => bind.setNumberContent(dsa5.AP_Grundwerte,gwap))
-dsa5.AP_Summanden.forEach(Summand => Werte.observe(Summand, _ => Werte.set(dsa5.Abenteuerpunkte, dsa5.Summe_AP(Werte))))
-Werte.observe(dsa5.Abenteuerpunkte, ap => bind.setNumberContent(dsa5.Abenteuerpunkte, ap))
-bind.bindSaveButton(Werte)
-bind.bindLoadButton(Werte)
+dsa5.Grundwerte.forEach(Grundwert => binde.zahlenEingabe(Werte, Grundwert, 10))
+dsa5.Grundwerte.forEach(Grundwert => Werte.beobachte(Grundwert, _ => Werte.setze(dsa5.AP_Grundwerte, dsa5.Summe_AP_Grundwerte(Werte))))
+Werte.beobachte(dsa5.AP_Grundwerte, ap => binde.zahlenAusgabe(dsa5.AP_Grundwerte, ap))
+dsa5.AP_Summanden.forEach(Summand => Werte.beobachte(Summand, _ => Werte.setze(dsa5.Abenteuerpunkte, dsa5.Summe_AP(Werte))))
+Werte.beobachte(dsa5.Abenteuerpunkte, ap => binde.zahlenAusgabe(dsa5.Abenteuerpunkte, ap))
+binde.speichern(Werte)
+binde.laden(Werte)
 
 const kt = document.getElementById("Körpertalente")
 if (kt instanceof HTMLTableElement) {
@@ -25,9 +25,9 @@ if (kt instanceof HTMLTableElement) {
     input.value = "0"
     input.min = "0"
     input.max = "20"
-    bind.bindNumberInputElement(Werte, Name, input, 0)
-    Werte.observe(Name, _ => Werte.set(dsa5.AP_Körpertalente, dsa5.Summe_AP_Talente(Werte, dsa5.Körpertalente)))
+    binde.zahlenEingabeElement(Werte, Name, input, 0)
+    Werte.beobachte(Name, _ => Werte.setze(dsa5.AP_Körpertalente, dsa5.Summe_AP_Talente(Werte, dsa5.Körpertalente)))
     row.insertCell().appendChild(input)
   })
 }
-Werte.observe(dsa5.AP_Körpertalente, ap => bind.setNumberContent(dsa5.AP_Körpertalente,ap))
+Werte.beobachte(dsa5.AP_Körpertalente, ap => binde.zahlenAusgabe(dsa5.AP_Körpertalente,ap))
