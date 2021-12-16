@@ -18,7 +18,7 @@ if (kt instanceof HTMLTableElement) {
     const row = kt.insertRow()
     row.insertCell().textContent = Name
     row.insertCell().textContent = Probe
-    row.insertCell().textContent = Behinderung ? "Ja": "Nein"
+    row.insertCell().textContent = Behinderung
     row.insertCell().textContent = String.fromCharCode(64 + Faktor)
     const input = document.createElement("input")
     input.type = "number"
@@ -31,3 +31,23 @@ if (kt instanceof HTMLTableElement) {
   })
 }
 Werte.beobachte(dsa5.AP_Körpertalente, ap => binde.zahlenAusgabe(dsa5.AP_Körpertalente,ap))
+
+const gt = document.getElementById("Gesellschaftstalente")
+if (gt instanceof HTMLTableElement) {
+  dsa5.Gesellschaftstalente.forEach(([Name, Probe, Behinderung, Faktor]) => {
+    const row = gt.insertRow()
+    row.insertCell().textContent = Name
+    row.insertCell().textContent = Probe
+    row.insertCell().textContent = Behinderung
+    row.insertCell().textContent = String.fromCharCode(64 + Faktor)
+    const input = document.createElement("input")
+    input.type = "number"
+    input.value = "0"
+    input.min = "0"
+    input.max = "20"
+    binde.zahlenEingabeElement(Werte, Name, input, 0)
+    Werte.beobachte(Name, _ => Werte.setze(dsa5.AP_Gesellschaftstalente, dsa5.Summe_AP_Talente(Werte, dsa5.Gesellschaftstalente)))
+    row.insertCell().appendChild(input)
+  })
+}
+Werte.beobachte(dsa5.AP_Gesellschaftstalente, ap => binde.zahlenAusgabe(dsa5.AP_Gesellschaftstalente,ap))
