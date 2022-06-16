@@ -6,26 +6,20 @@ import org.scalajs.dom.document
 object Main {
 
   def main(args: Array[String]): Unit =
-    document.addEventListener("DOMContentLoaded", {_: dom.Event => setupUI()})
+    document.addEventListener("DOMContentLoaded", { _: dom.Event => setupUI() })
 
   def setupUI(): Unit = {
-    val button = document.createElement("button")
-    button.textContent = "Click me!"
-    button.addEventListener("click", { (_: dom.MouseEvent) =>
-      addClickedMessage()
+    val gw_mu = new Grundwert(10)
+    val mu = document.createElement("input").asInstanceOf[dom.html.Input]
+    mu.id = "MU"
+    mu.`type` = "number"
+    mu.min = "8"
+    mu.max = "19"
+    mu.value = gw_mu.value.toString
+    mu.addEventListener("input", { _: dom.Event =>
+      if (!mu.value.toIntOption.exists(gw_mu.set)) mu.value = gw_mu.value.toString
     })
-    document.body.appendChild(button)
-
-    appendPar(document.body, "Hello World")
-  }
-
-  def addClickedMessage(): Unit = {
-    appendPar(document.body, "You clicked the button!")
-  }
-
-  def appendPar(targetNode: dom.Node, text: String): Unit = {
-    val parNode = document.createElement("p")
-    parNode.textContent = text
-    targetNode.appendChild(parNode)
+    document.body.append("MU ")
+    document.body.appendChild(mu)
   }
 }
