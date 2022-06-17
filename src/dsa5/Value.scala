@@ -1,9 +1,11 @@
 package dsa5
 
+/** Implementations MUST call the observers on value changes. */
 trait Value {
   def value: Int
-  protected var observers: Vector[Int => Any] = Vector[Int => Any]()
-  final def observe(f: Int => Any): Unit = observers +:= f
+  protected var observers: Vector[Value => Any] = Vector()
+  /** Registers AND IMMEDIATELY CALLS the observer. */
+  final def observe(f: Value => Any): Unit = { observers +:= f; f(this) }
 }
 
 abstract class SettableValue(initialValue: Int) extends Value {
@@ -13,7 +15,7 @@ abstract class SettableValue(initialValue: Int) extends Value {
   final def set(newValue: Int): Boolean =
     if (validate(newValue)) {
       _value = newValue
-      observers.foreach(_(newValue))
+      observers.foreach(_(this))
       true
     } else false
 }
@@ -23,6 +25,12 @@ final class Grundwert(initialValue: Int) extends SettableValue(initialValue) { g
   assert(validate(value), s"Initial value $initialValue not valid.")
   val ap: Value = new Value {
     override def value: Int = gw_ap(grundwert.value)
-    grundwert.observe(_ => observers.foreach(_(value)))
+    grundwert.observe(_ => observers.foreach(_(this)))
   }
+}
+
+final class Abenteuerpunkte extends Value {
+  var summanden: Vector[Value] = Vector()
+  def plus(value: Value): Unit = { summanden +:= value; value.observe(_ => observers.foreach(_(this))) }
+  override def value: Int = summanden.map(_.value).sum
 }

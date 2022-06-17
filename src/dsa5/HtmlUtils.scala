@@ -10,6 +10,6 @@ object HtmlUtils {
     document.createElement("table").tap(_.id = id).tap(document.body.append(_)).asInstanceOf[Table]
   def tr(table: Table): TableRow =
     document.createElement("tr").tap(table.append(_)).asInstanceOf[TableRow]
-  def td(nodes: (Node | String)*): Node =
+  def td(nodes: (Node | String)*): TableCell =
     document.createElement("td").tap(_.append(nodes:_*)).asInstanceOf[TableCell]
 }
