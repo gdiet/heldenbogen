@@ -6,12 +6,19 @@ import org.scalajs.dom.html.Input
 
 object Bogenelemente {
   def grundwerte(): Map[String, Grundwert] = {
-    val p = document.createElement("p")
-    val map = gw_keys.map(name => name -> grundwert(name))
-    p.append(s"${gw_keys(0)} ", map.head._2._2)
-    map.tail.foreach { case (key, (_, input)) => p.append(s" - $key ", input) }
-    document.body.append(p)
-    map.map { case (key, (gw, _)) => key -> gw }.toMap
+    val table = document.createElement("table")
+    table.id = "Grundwerte"
+    document.body.append(table)
+    val tr = document.createElement("tr")
+    table.append(tr)
+
+    gw_keys.map { name =>
+      val gw -> input = grundwert(name)
+      val td = document.createElement("td")
+      td.append(s"$name ", input)
+      tr.append(td)
+      name -> gw
+    }.toMap
   }
   private def grundwert(name: String): (Grundwert, Input) = {
     val gw = new Grundwert(10)
