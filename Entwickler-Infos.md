@@ -1,5 +1,9 @@
 ### Compilieren
 
-`sbt> fastLinkJS`
+Inkrementelles Kompilieren funktioniert nicht zuverlässig genug, deswegen empfiehlt sich ein "clean" bei jedem Build.
+
+`sbt> ;clean;fastLinkJS`
+
 oder
-`sbt> ~fastLinkJS`
+
+`sbt> ~;clean;fastLinkJS`

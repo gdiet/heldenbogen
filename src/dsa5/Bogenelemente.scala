@@ -8,7 +8,7 @@ object Bogenelemente {
   def grundwerte(): Map[String, Grundwert] = {
     val table = HtmlUtils.table("Grundwerte")
     val tr = HtmlUtils.tr(table)
-    gw_keys.map { name =>
+    DSA5.gw_keys.map { name =>
       val gw -> input = grundwert(name)
       tr.append(HtmlUtils.td(s"$name ", input))
       name -> gw
@@ -26,5 +26,12 @@ object Bogenelemente {
       if (!input.value.toIntOption.exists(gw.set)) input.value = gw.value.toString
     })
     gw -> input
+  }
+
+  def abenteuerpunkte_uebersicht(ap_grundwerte: Abenteuerpunkte): Unit = {
+    val ap_gw_td = HtmlUtils.td()
+    val ap_table = HtmlUtils.table("AP_Übersicht").tap(HtmlUtils.tr(_).append(ap_gw_td))
+    ap_grundwerte.observe(_ => ap_gw_td.replaceChildren(s"AP Grundwerte: ${ap_grundwerte.value}"))
+    document.body.append(ap_table)
   }
 }

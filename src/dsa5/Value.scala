@@ -24,7 +24,7 @@ final class Grundwert(initialValue: Int) extends SettableValue(initialValue) { g
   override protected def validate(newValue: Int): Boolean = newValue >= 8 && newValue <= 19
   assert(validate(value), s"Initial value $initialValue not valid.")
   val ap: Value = new Value {
-    override def value: Int = gw_ap(grundwert.value)
+    override def value: Int = DSA5.gw_ap(grundwert.value)
     grundwert.observe(_ => observers.foreach(_(this)))
   }
 }
