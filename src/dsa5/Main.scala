@@ -12,5 +12,7 @@ object Main {
     val ap_grundwerte = new Abenteuerpunkte()
     Bogenelemente.grundwerte().tap(_.values.foreach(gw => ap_grundwerte.plus(gw.ap)))
     Bogenelemente.abenteuerpunkte_uebersicht(ap_grundwerte)
+    Bogenelemente.talentwerte("Körper")
+    Bogenelemente.talentwerte("Gesellschafts")
   }
 }

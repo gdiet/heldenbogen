@@ -34,4 +34,22 @@ object Bogenelemente {
     ap_grundwerte.observe(_ => ap_gw_td.replaceChildren(s"AP Grundwerte: ${ap_grundwerte.value}"))
     document.body.append(ap_table)
   }
+
+  def talentwerte(kategorie: String): Unit = {
+    val table = HtmlUtils.table(s"${kategorie}talente")
+    val cols = Seq("Talent", "GW", "Probe", "BE", "x", "TW", "AP")
+    cols.foreach(id => HtmlUtils.col(s"${kategorie}_$id").tap(table.append(_)))
+    val headerRow = HtmlUtils.tr(table)
+    cols.foreach(col => HtmlUtils.th(col).tap(headerRow.append(_)))
+    DSA5.talente(kategorie).foreach { case (talent, probe, behinderung, steigerungsfaktor) =>
+      val tr = HtmlUtils.tr(table)
+      Seq(talent, probe, "", behinderung, s"$steigerungsfaktor", "", "").foreach(col =>
+        HtmlUtils.td(col).tap(tr.append(_))
+      )
+    }
+    document.body.append(table)
+//  Ausblenden von Spalten:
+//    document.getElementById(s"${kategorie}_GW").setAttribute("style", "visibility:collapse")
+    // Vermutlich besser wenn wir class="spalte_gw" definieren und darüber CSS "visibility:collapse"
+  }
 }

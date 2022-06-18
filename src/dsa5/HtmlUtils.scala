@@ -1,7 +1,7 @@
 package dsa5
 
-import org.scalajs.dom.html.{Table, TableCell, TableRow}
-import org.scalajs.dom.{Element, Node, document}
+import org.scalajs.dom.html.{Table, TableCell, TableCol, TableRow}
+import org.scalajs.dom.{Node, document}
 
 import scala.scalajs.js.|
 
@@ -12,4 +12,8 @@ object HtmlUtils {
     document.createElement("tr").tap(table.append(_)).asInstanceOf[TableRow]
   def td(nodes: (Node | String)*): TableCell =
     document.createElement("td").tap(_.append(nodes:_*)).asInstanceOf[TableCell]
+  def th(nodes: (Node | String)*): TableCell =
+    document.createElement("th").tap(_.append(nodes:_*)).asInstanceOf[TableCell]
+  def col(id: String): TableCol =
+    document.createElement("col").tap(_.id = id).asInstanceOf[TableCol]
 }
