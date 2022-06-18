@@ -9,10 +9,7 @@ object Main {
     document.addEventListener("DOMContentLoaded", { _: dom.Event => setupUI() })
 
   def setupUI(): Unit = {
-    val ap_grundwerte = new Abenteuerpunkte()
-    Bogenelemente.grundwerte().tap(_.values.foreach(gw => ap_grundwerte.plus(gw.ap)))
-    Bogenelemente.abenteuerpunkte_uebersicht(ap_grundwerte)
-    Bogenelemente.talentwerte("Körper")
-    Bogenelemente.talentwerte("Gesellschafts")
+    val dsa = new DSA5()
+    Bogenelemente.grundwerte(dsa)
   }
 }

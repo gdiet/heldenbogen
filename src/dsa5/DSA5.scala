@@ -1,14 +1,49 @@
 package dsa5
 
+import dsa5.DSA5._
+
+class DSA5 {
+  var eingaben: Map[String, Value] = Map()
+  var berechnet: Map[String, Value] = Map()
+  def wert(key: String): Value = eingaben.getOrElse(key, berechnet(key))
+
+  // Grundwerte und Abenteuerpunkte Grundwerte initialisieren
+  new Abenteuerpunkte().tap { ap_grundwerte =>
+    gw_keys.foreach { key =>
+      eingaben += key -> new Grundwert(10).tap(ap_grundwerte.plus)
+    }
+    berechnet += "AP Grundwerte" -> ap_grundwerte
+  }
+
+  // Talentewerte und Abenteuerpunkte Talentwerte initialisieren
+  talente.foreach { case (bereich, talente) =>
+    new Abenteuerpunkte().tap { ap_bereich =>
+      talente.foreach { case (talent, _, _, _) =>
+        eingaben += talent -> new Talentwert(0).tap(ap_bereich.plus)
+      }
+      berechnet += s"AP $bereich" -> ap_bereich
+    }
+  }
+
+  // Gesamt-Abenteuerpunkte initialisieren
+  new Abenteuerpunkte().tap { ap =>
+    berechnet.foreach { case (key, value) => if (key.startsWith("AP ")) ap.plus(value) }
+    berechnet += "AP" -> ap
+  }
+}
+
 object DSA5 {
-  val gw_keys: Array[String] = Array("MU","KL","IN","CH","FF","GE","KO","KK")
+  def gw_keys: Array[String] = Array("MU","KL","IN","CH","FF","GE","KO","KK")
 
   // Abenteuerpunkte für Grundwerte: Bis 8 -> 0 AP, maximaler Grundwert 19
-  val gw_ap: Array[Int] = Array(0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390)
+  def gw_ap: Array[Int] = Array(0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390)
+
+  // Abenteuerpunkte für Talentwerte, maximaler Talentwert 20
+  def talente_ap: Array[Int] = Array(0,1,2,3,4,5,6,7,8,9,10,11,12, 14,17,21,26,32,39,47,56)
 
   // Talente: Talent, Probe, Behinderung, Steigerungsfaktor
-  val talente: Map[String, Seq[(String, String, String, Int)]] = Map(
-    "Körper" -> Seq(
+  def talente: Seq[(String, Seq[(String, String, String, Int)])] = Seq(
+    "Körpertalente" -> Seq(
       ("Fliegen",            "MU/IN/GE", "J", 2),
       ("Gaukeleien",         "MU/CH/FF", "J", 1),
       ("Klettern",           "MU/GE/KK", "J", 2),
@@ -24,7 +59,7 @@ object DSA5 {
       ("Verbergen",          "MU/IN/GE", "J", 3),
       ("Zechen",             "KL/KO/KK", "N", 1),
     ),
-    "Gesellschafts" -> Seq(
+    "Gesellschaftstalente" -> Seq(
       ("Bekehren & Überzeugen", "MU/KL/CH", "N", 2),
       ("Betören",               "MU/CH/CH", "?", 2),
       ("Einschüchtern",         "MU/IN/CH", "N", 2),
