@@ -24,6 +24,8 @@ object HtmlUtils {
   def tr[T](contents: => T)(implicit parent: Elem): T = add("tr")(contents)
   def th[T](contents: => T)(implicit parent: Elem): T = add("th")(contents)
   def td[T](contents: => T)(implicit parent: Elem): T = add("td")(contents)
+  def colgroup[T](contents: => T)(implicit parent: Elem): T = add("colgroup")(contents)
+  def col[T](contents: => T)(implicit parent: Elem): T = add("col")(contents)
 
   def id(id: String)(implicit current: Elem): Unit = current().id = id
   def clazz(clazz: String)(implicit current: Elem): Unit = current().setAttribute("class", clazz)

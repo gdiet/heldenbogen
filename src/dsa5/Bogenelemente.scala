@@ -19,4 +19,16 @@ object Bogenelemente {
       }
     }
   }
+
+  def talentwerte(dsa: DSA5): Unit = {
+    implicit val context: Elem = body
+    DSA5.talente.foreach { case (bereich, talente) =>
+      val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "TW", "AP")
+      val s_titel = Seq(bereich,  ""     ,      "", "BE"         , "SF"               , "TW", "AP")
+      table { clazz("Talentwerte")
+        colgroup(spalten.foreach(spalte => col(clazz(spalte))))
+        tr(s_titel.foreach(titel => th(append(titel))))
+      }
+    }
+  }
 }
