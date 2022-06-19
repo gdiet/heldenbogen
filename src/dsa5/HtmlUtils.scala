@@ -1,6 +1,7 @@
 package dsa5
 
-import org.scalajs.dom.{Element, Node, document}
+import org.scalajs.dom.html.Input
+import org.scalajs.dom.{Element, Event, Node, document}
 
 import scala.scalajs.js.|
 
@@ -27,4 +28,14 @@ object HtmlUtils {
   def id(id: String)(implicit current: Elem): Unit = current().id = id
   def clazz(clazz: String)(implicit current: Elem): Unit = current().setAttribute("class", clazz)
   def append(nodes: (Node | String)*)(implicit current: Elem): Unit = current().append(nodes:_*)
+
+  def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input = {
+    document.createElement("input").asInstanceOf[Input]
+      .tap(_.`type` = "number")
+      .tap(_.min = min.toString)
+      .tap(_.max = max.toString)
+      .tap(_.value = value.toString)
+      .tap(input => input.addEventListener("input", { _: Event => listener(input) } ))
+      .tap(parent().append(_))
+  }
 }

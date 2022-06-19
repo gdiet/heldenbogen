@@ -1,6 +1,6 @@
 package dsa5
 
-import HtmlUtils._
+import dsa5.HtmlUtils._
 
 object Bogenelemente {
   def grundwerte(dsa: DSA5): Unit = {
@@ -10,6 +10,7 @@ object Bogenelemente {
         DSA5.gw_keys.foreach { gw =>
           td {
             append(s"$gw ")
+            numberInput(8, 19, dsa.wert(gw).value) { _ => ??? }
           }
         }
       }
