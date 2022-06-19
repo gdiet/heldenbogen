@@ -33,14 +33,22 @@ object Bogenelemente {
           }
         }
         talente.foreach { case (talent, probe, be, sf) =>
+          val talentwert = dsa.zahleingaben(talent)
           tr {
             td { clazz(spalten(0)); append(talent) }
             td { clazz(spalten(1)); append(probe) }
             td { clazz(spalten(2)); append("??/??/??") }
             td { clazz(spalten(3)); append(be) }
             td { clazz(spalten(4)); append(s"$sf") }
-            td { clazz(spalten(5)); append("??") }
-            td { clazz(spalten(6)); append("??") }
+            td { clazz(spalten(5))
+              numberInput(0, 20, talentwert.value) { input =>
+                if (!input.value.toIntOption.exists(talentwert.set)) input.value = talentwert.value.toString
+              }
+            }
+            td { clazz(spalten(6))
+              val element = context() // Get the current context Element itself.
+              talentwert.observe(_ => element.replaceChildren(s"${talentwert.ap.value}") )
+            }
           }
         }
       }

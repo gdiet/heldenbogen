@@ -6,10 +6,11 @@ import org.scalajs.dom.{Element, Event, Node, document}
 import scala.scalajs.js.|
 
 object HtmlUtils {
-  // Used as implicits below to provide changing context.
+  /** Used as implicit to provide changing context. Note that instances of this (mutable) class
+    * MUST NOT be references by event listeners. */
   class Elem(parent: Element) {
     private var stack: List[Element] = List(parent)
-    private[HtmlUtils] def apply(): Element = stack.head
+    def apply(): Element = stack.head
     private[HtmlUtils] def pop(): Unit = stack = stack.tail
     private[HtmlUtils] def push(element: Element): Unit = stack ::= element
   }

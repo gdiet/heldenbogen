@@ -11,6 +11,7 @@ trait Value {
 abstract class SettableValue(initialValue: Int) extends Value {
   private var _value: Int = initialValue
   override final def value: Int = _value
+  def ap: Value
   protected def validate(newValue: Int): Boolean
   final def set(newValue: Int): Boolean =
     if (validate(newValue)) {

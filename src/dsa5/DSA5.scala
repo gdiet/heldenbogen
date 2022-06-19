@@ -18,6 +18,8 @@ class DSA5 {
   talente.foreach { case (bereich, talente) =>
     new Abenteuerpunkte().tap { ap_bereich =>
       talente.foreach { case (talent, _, _, _) =>
+        // FIXME Steigerungsfaktor verwenden zur Berechnung der Abenteuerpunkte
+        // FIXME Abenteuerpunkte summieren, nicht Talentwerte
         zahleingaben += talent -> new Talentwert(0).tap(ap_bereich.plus)
       }
       berechnet += s"AP $bereich" -> ap_bereich
@@ -59,15 +61,15 @@ object DSA5 {
       ("Zechen",             "KL/KO/KK", "N", 1),
     ),
     "Gesellschaftstalente" -> Seq(
-      ("Bekehren & Überzeugen", "MU/KL/CH", "N", 2),
-      ("Betören",               "MU/CH/CH", "?", 2),
-      ("Einschüchtern",         "MU/IN/CH", "N", 2),
-      ("Etikette",              "KL/IN/CH", "?", 2),
-      ("Gassenwissen",          "KL/IN/CH", "?", 3),
-      ("Menschenkenntnis",      "KL/IN/CH", "N", 3),
-      ("Überreden",             "MU/IN/CH", "N", 3),
-      ("Verkleiden",            "IN/CH/GE", "?", 2),
-      ("Willenskraft",          "MU/IN/CH", "N", 4),
+      ("Bekehren/Überzeugen", "MU/KL/CH", "N", 2),
+      ("Betören",             "MU/CH/CH", "?", 2),
+      ("Einschüchtern",       "MU/IN/CH", "N", 2),
+      ("Etikette",            "KL/IN/CH", "?", 2),
+      ("Gassenwissen",        "KL/IN/CH", "?", 3),
+      ("Menschenkenntnis",    "KL/IN/CH", "N", 3),
+      ("Überreden",           "MU/IN/CH", "N", 3),
+      ("Verkleiden",          "IN/CH/GE", "?", 2),
+      ("Willenskraft",        "MU/IN/CH", "N", 4),
     )
   )
 }

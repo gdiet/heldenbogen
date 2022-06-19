@@ -1,7 +1,7 @@
 table#Grundwerte {
   width: 90%;
 }
-th.Talent {
+th {
   text-align: left;
 }
 td.Behinderung, td.Steigerungsfaktor, td.Abenteuerpunkte {
