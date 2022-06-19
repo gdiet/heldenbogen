@@ -23,11 +23,26 @@ object Bogenelemente {
   def talentwerte(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     DSA5.talente.foreach { case (bereich, talente) =>
-      val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "TW", "AP")
-      val s_titel = Seq(bereich,  ""     ,      "", "BE"         , "SF"               , "TW", "AP")
+      val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "Talentwert", "Abenteuerpunkte")
+      val s_titel = Seq(bereich ,  ""    , ""     , "BE"         , "SF"               , "TW"        , "AP"             )
       table { clazz("Talentwerte")
         colgroup(spalten.foreach(spalte => col(clazz(spalte))))
-        tr(s_titel.foreach(titel => th(append(titel))))
+        tr {
+          spalten.zip(s_titel).foreach { case (spalte, titel) =>
+            th { clazz(spalte); append(titel) }
+          }
+        }
+        talente.foreach { case (talent, probe, be, sf) =>
+          tr {
+            td { clazz(spalten(0)); append(talent) }
+            td { clazz(spalten(1)); append(probe) }
+            td { clazz(spalten(2)); append("??/??/??") }
+            td { clazz(spalten(3)); append(be) }
+            td { clazz(spalten(4)); append(s"$sf") }
+            td { clazz(spalten(5)); append("??") }
+            td { clazz(spalten(6)); append("??") }
+          }
+        }
       }
     }
   }

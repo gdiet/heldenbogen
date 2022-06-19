@@ -1,3 +1,16 @@
 table#Grundwerte {
   width: 90%;
 }
+th.Talent {
+  text-align: left;
+}
+td.Behinderung, td.Steigerungsfaktor, td.Abenteuerpunkte {
+  text-align: center;
+}
+
+/*
+FIXME entfernen wenn nicht mehr benötigt: Beispiel wie man eine Spalte ausblendet.
+col.Behinderung {
+  visibility:collapse;
+}
+*/
