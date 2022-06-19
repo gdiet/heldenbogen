@@ -4,8 +4,14 @@ table#Grundwerte {
 th {
   text-align: left;
 }
+th.Talentwert, th.Abenteuerpunkte {
+  text-align: center;
+}
 td.Behinderung, td.Steigerungsfaktor, td.Abenteuerpunkte {
   text-align: center;
+}
+input[type=number] {
+  width: 2.6em;
 }
 
 /*
