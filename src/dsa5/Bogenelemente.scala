@@ -22,7 +22,7 @@ object Bogenelemente {
 
   def talentwerte(dsa: DSA5): Unit = {
     implicit val context: Elem = body
-    DSA5.talente.foreach { case (bereich, talente) =>
+    DSA5.talentTabelle.foreach { case (bereich, talente) =>
       val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "Talentwert", "Abenteuerpunkte")
       val s_titel = Seq(bereich ,  ""    , ""     , "BE"         , "SF"               , "TW"        , "AP"             )
       table { clazz("Talentwerte")

@@ -30,11 +30,11 @@ final class Grundwert(initialValue: Int) extends SettableValue(initialValue) { g
   }
 }
 
-final class Talentwert(initialValue: Int) extends SettableValue(initialValue) { talentwert =>
+final class Talentwert(initialValue: Int, steigerungsFaktor: Int) extends SettableValue(initialValue) { talentwert =>
   override protected def validate(newValue: Int): Boolean = newValue >= 0 && newValue <= 20
   assert(validate(value), s"Initial value $initialValue not valid.")
   val ap: Value = new Value {
-    override def value: Int = DSA5.talente_ap(talentwert.value)
+    override def value: Int = DSA5.talente_ap(talentwert.value) * steigerungsFaktor
     talentwert.observe(_ => observers.foreach(_(this)))
   }
 }

@@ -15,12 +15,10 @@ class DSA5 {
   }
 
   // Talentewerte und Abenteuerpunkte Talentwerte initialisieren
-  talente.foreach { case (bereich, talente) =>
+  talentTabelle.foreach { case (bereich, talente) =>
     new Abenteuerpunkte().tap { ap_bereich =>
-      talente.foreach { case (talent, _, _, _) =>
-        // FIXME Steigerungsfaktor verwenden zur Berechnung der Abenteuerpunkte
-        // FIXME Abenteuerpunkte summieren, nicht Talentwerte
-        zahleingaben += talent -> new Talentwert(0).tap(ap_bereich.plus)
+      talente.foreach { case (talent, _, _, steigerungsfaktor) =>
+        zahleingaben += talent -> new Talentwert(0, steigerungsfaktor).tap(tw => ap_bereich.plus(tw.ap))
       }
       berechnet += s"AP $bereich" -> ap_bereich
     }
@@ -43,7 +41,7 @@ object DSA5 {
   def talente_ap: Array[Int] = Array(0,1,2,3,4,5,6,7,8,9,10,11,12, 14,17,21,26,32,39,47,56)
 
   // Talente: Talent, Probe, Behinderung, Steigerungsfaktor
-  def talente: Seq[(String, Seq[(String, String, String, Int)])] = Seq(
+  def talentTabelle: Seq[(String, Seq[(String, String, String, Int)])] = Seq(
     "Körpertalente" -> Seq(
       ("Fliegen",            "MU/IN/GE", "J", 2),
       ("Gaukeleien",         "MU/CH/FF", "J", 1),
