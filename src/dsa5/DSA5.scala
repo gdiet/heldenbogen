@@ -3,14 +3,13 @@ package dsa5
 import dsa5.DSA5._
 
 class DSA5 {
-  var eingaben: Map[String, Value] = Map()
+  var zahleingaben: Map[String, SettableValue] = Map()
   var berechnet: Map[String, Value] = Map()
-  def wert(key: String): Value = eingaben.getOrElse(key, berechnet(key))
 
   // Grundwerte und Abenteuerpunkte Grundwerte initialisieren
   new Abenteuerpunkte().tap { ap_grundwerte =>
     gw_keys.foreach { key =>
-      eingaben += key -> new Grundwert(10).tap(ap_grundwerte.plus)
+      zahleingaben += key -> new Grundwert(10).tap(ap_grundwerte.plus)
     }
     berechnet += "AP Grundwerte" -> ap_grundwerte
   }
@@ -19,7 +18,7 @@ class DSA5 {
   talente.foreach { case (bereich, talente) =>
     new Abenteuerpunkte().tap { ap_bereich =>
       talente.foreach { case (talent, _, _, _) =>
-        eingaben += talent -> new Talentwert(0).tap(ap_bereich.plus)
+        zahleingaben += talent -> new Talentwert(0).tap(ap_bereich.plus)
       }
       berechnet += s"AP $bereich" -> ap_bereich
     }

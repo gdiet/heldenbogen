@@ -7,10 +7,13 @@ object Bogenelemente {
     implicit val context: Elem = body
     table { id("Grundwerte")
       tr {
-        DSA5.gw_keys.foreach { gw =>
+        DSA5.gw_keys.foreach { gw_key =>
           td {
-            append(s"$gw ")
-            numberInput(8, 19, dsa.wert(gw).value) { _ => ??? }
+            append(s"$gw_key ")
+            val gw = dsa.zahleingaben(gw_key)
+            numberInput(8, 19, gw.value) { input =>
+              if (!input.value.toIntOption.exists(gw.set)) input.value = gw.value.toString
+            }
           }
         }
       }
