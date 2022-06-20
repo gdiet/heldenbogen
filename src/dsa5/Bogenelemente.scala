@@ -37,7 +37,11 @@ object Bogenelemente {
           tr {
             td { clazz(spalten(0)); append(talent) }
             td { clazz(spalten(1)); append(probe) }
-            td { clazz(spalten(2)); append("??/??/??") }
+            td { clazz(spalten(2))
+              val element = context() // Get the current context Element itself.
+              val werte = probe.split('/').map(dsa.zahleingaben)
+              werte.foreach(_.observe(_ => element.replaceChildren(werte.map(_.value).mkString("/"))))
+            }
             td { clazz(spalten(3)); append(be) }
             td { clazz(spalten(4)); append(s"$sf") }
             td { clazz(spalten(5))
