@@ -15,3 +15,10 @@ createPage := {
   val pageDir = file("docs")
   IO.copyFile(file("target/scala-2.13/heldenbogen-fastopt/main.js"), pageDir / "main.js")
 }
+
+lazy val fullOptPage = taskKey[Unit]("Build and copy the JavaScript code.")
+fullOptPage := {
+  val _ = (Compile / fullOptJS).value
+  val pageDir = file("docs")
+  IO.copyFile(file("target/scala-2.13/heldenbogen-opt/main.js"), pageDir / "main.js")
+}
