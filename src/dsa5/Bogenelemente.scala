@@ -24,13 +24,21 @@ object Bogenelemente {
     implicit val context: Elem = body
     DSA5.talentTabelle.foreach { case (bereich, talente) =>
       val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "Talentwert", "Abenteuerpunkte")
-      val s_titel = Seq(bereich ,  ""    , ""     , "BE"         , "SF"               , "TW"        , "AP"             )
       table { clazz("Talentwerte")
         colgroup(spalten.foreach(spalte => col(clazz(spalte))))
         tr {
-          spalten.zip(s_titel).foreach { case (spalte, titel) =>
-            th { clazz(spalte); append(titel) }
+          th { clazz(spalten(0)); append(bereich) }
+          th { clazz(spalten(1))
+            val element = context() // Get the current context Element itself.
+            dsa.berechnet(s"AP $bereich").observe(ap =>
+              element.replaceChildren(s"Σ AP ${ap.value}")
+            )
           }
+          th { clazz(spalten(2)); append("Probe") }
+          th { clazz(spalten(3)); append("BE") }
+          th { clazz(spalten(4)); append("SF") }
+          th { clazz(spalten(5)); append("TW") }
+          th { clazz(spalten(6)); append("AP") }
         }
         talente.foreach { case (talent, probe, be, sf) =>
           val talentwert = dsa.zahleingaben(talent)
