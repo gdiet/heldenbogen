@@ -30,6 +30,7 @@ object HtmlUtils {
 
   def id(id: String)(implicit current: Elem): Unit = current().id = id
   def clazz(clazz: String)(implicit current: Elem): Unit = current().setAttribute("class", clazz)
+  def attr(attr: String, value: String)(implicit current: Elem): Unit = current().setAttribute(attr, value)
   def append(nodes: (Node | String)*)(implicit current: Elem): Unit = current().append(nodes:_*)
 
   def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input = {

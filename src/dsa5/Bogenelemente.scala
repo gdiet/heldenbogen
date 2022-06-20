@@ -7,6 +7,14 @@ object Bogenelemente {
     implicit val context: Elem = body
     table { id("Grundwerte")
       tr {
+        th { attr("colspan", "8")
+          val element = context() // Get the current context Element itself.
+          dsa.berechnet(s"AP Grundwerte").observe(ap =>
+            element.replaceChildren(s"Grundwerte Σ AP ${ap.value}")
+          )
+        }
+      }
+      tr {
         DSA5.gw_keys.foreach { gw_key =>
           td {
             append(s"$gw_key ")

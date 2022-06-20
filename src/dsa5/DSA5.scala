@@ -9,7 +9,7 @@ class DSA5 {
   // Grundwerte und Abenteuerpunkte Grundwerte initialisieren
   new Abenteuerpunkte().tap { ap_grundwerte =>
     gw_keys.foreach { key =>
-      zahleingaben += key -> new Grundwert(10).tap(ap_grundwerte.plus)
+      zahleingaben += key -> new Grundwert(10).tap(gw => ap_grundwerte.plus(gw.ap))
     }
     berechnet += "AP Grundwerte" -> ap_grundwerte
   }
