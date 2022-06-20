@@ -21,6 +21,8 @@ object HtmlUtils {
     contents.tap(_ => parent.pop())
   }
 
+  def p[T](contents: => T)(implicit parent: Elem): T = add("p")(contents)
+
   def table[T](contents: => T)(implicit parent: Elem): T = add("table")(contents)
   def tr[T](contents: => T)(implicit parent: Elem): T = add("tr")(contents)
   def th[T](contents: => T)(implicit parent: Elem): T = add("th")(contents)

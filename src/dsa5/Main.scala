@@ -10,6 +10,7 @@ object Main {
 
   def setupUI(): Unit = {
     val dsa = new DSA5()
+    Bogenelemente.ap_gesamt(dsa)
     Bogenelemente.grundwerte(dsa)
     Bogenelemente.talentwerte(dsa)
   }

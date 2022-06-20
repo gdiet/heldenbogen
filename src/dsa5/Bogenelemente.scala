@@ -3,6 +3,16 @@ package dsa5
 import dsa5.HtmlUtils._
 
 object Bogenelemente {
+  def ap_gesamt(dsa: DSA5): Unit = {
+    implicit val context: Elem = body
+    p {
+      val element = context() // Get the current context Element itself.
+      dsa.berechnet(s"AP").observe(ap =>
+        element.replaceChildren(s"Σ AP ${ap.value}")
+      )
+    }
+  }
+
   def grundwerte(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     table { id("Grundwerte")
