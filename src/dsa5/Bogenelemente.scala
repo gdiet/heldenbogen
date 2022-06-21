@@ -41,16 +41,24 @@ object Bogenelemente {
   def spalten_selektoren(): Unit = {
     implicit val context: Elem = body
     // FIXME ein-/ausklappbar mit Überschrift
-    p(checkbox("Zeige Grundwerte", labelRight = true)(b => println(b.checked)))
-    p(checkbox("Zeige Probe", labelRight = true)(b => println(b.checked)))
-    p(checkbox("Zeige Steigerungsfaktor", labelRight = true)(b => println(b.checked)))
-    p(checkbox("Zeige Abenteuerpunkte", labelRight = true)(b => println(b.checked)))
+    p(checkbox("Zeige Grundwerte", labelRight = true)(box =>
+      setClassVisibility("Grundwerte", if (box.checked) "" else "collapse")
+    ))
+    p(checkbox("Zeige Probe", labelRight = true)(box =>
+      setClassVisibility("Probe", if (box.checked) "" else "collapse")
+    ))
+    p(checkbox("Zeige Steigerungsfaktor", labelRight = true)(box =>
+      setClassVisibility("Steigerungsfaktor", if (box.checked) "" else "collapse")
+    ))
+    p(checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
+      setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
+    ))
   }
 
   def talentwerte(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     DSA5.talentTabelle.foreach { case (bereich, talente) =>
-      val spalten = Seq("Talent", "Probe", "Werte", "Behinderung", "Steigerungsfaktor", "Talentwert", "Abenteuerpunkte")
+      val spalten = Seq("Talent", "Grundwerte", "Probe", "Behinderung", "Steigerungsfaktor", "Talentwert", "Abenteuerpunkte")
       table { clazz("Talentwerte")
         colgroup(spalten.foreach(spalte => col(clazz(spalte))))
         tr {
@@ -61,7 +69,7 @@ object Bogenelemente {
               element.replaceChildren(s"Σ AP ${ap.value}")
             )
           }
-          th { clazz(spalten(2)); append("Werte") }
+          th { clazz(spalten(2)); append("Probe") }
           th { clazz(spalten(3)); append("BE") }
           th { clazz(spalten(4)); append("SF") }
           th { clazz(spalten(5)); append("TW") }

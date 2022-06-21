@@ -35,6 +35,11 @@ object HtmlUtils {
   def attr(attr: String, value: String)(implicit current: Elem): Unit = current().setAttribute(attr, value)
   def append(nodes: (Node | String)*)(implicit current: Elem): Unit = current().append(nodes:_*)
 
+  def setClassVisibility(clazz: String, visibility: String): Unit =
+    document.getElementsByClassName(clazz).foreach(
+      _.setAttribute("style", s"visibility:$visibility")
+    )
+
   def checkbox(label: String, checked: Boolean = true, labelRight: Boolean = false)(listener: Input => Any)(implicit parent: Elem): Input = {
     document.createElement("input").asInstanceOf[Input]
       .tap(_.`type` = "checkbox")
