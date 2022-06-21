@@ -38,6 +38,15 @@ object Bogenelemente {
     }
   }
 
+  def spalten_selektoren(): Unit = {
+    implicit val context: Elem = body
+    // FIXME ein-/ausklappbar mit Überschrift
+    p(checkbox("Zeige Grundwerte", labelRight = true)(b => println(b.checked)))
+    p(checkbox("Zeige Probe", labelRight = true)(b => println(b.checked)))
+    p(checkbox("Zeige Steigerungsfaktor", labelRight = true)(b => println(b.checked)))
+    p(checkbox("Zeige Abenteuerpunkte", labelRight = true)(b => println(b.checked)))
+  }
+
   def talentwerte(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     DSA5.talentTabelle.foreach { case (bereich, talente) =>

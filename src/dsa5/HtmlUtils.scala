@@ -35,6 +35,19 @@ object HtmlUtils {
   def attr(attr: String, value: String)(implicit current: Elem): Unit = current().setAttribute(attr, value)
   def append(nodes: (Node | String)*)(implicit current: Elem): Unit = current().append(nodes:_*)
 
+  def checkbox(label: String, checked: Boolean = true, labelRight: Boolean = false)(listener: Input => Any)(implicit parent: Elem): Input = {
+    document.createElement("input").asInstanceOf[Input]
+      .tap(_.`type` = "checkbox")
+      .tap(_.checked = checked)
+      .tap { input =>
+        input.addEventListener("input", { _: Event => listener(input) } )
+        document.createElement("label").tap { labelElement =>
+          if (labelRight) labelElement.append(input, label) else labelElement.append(label, input)
+          parent().append(labelElement)
+        }
+      }
+  }
+
   def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input = {
     document.createElement("input").asInstanceOf[Input]
       .tap(_.`type` = "number")
