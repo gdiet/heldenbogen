@@ -22,6 +22,7 @@ object HtmlUtils {
   }
 
   def p[T](contents: => T)(implicit parent: Elem): T = add("p")(contents)
+  def br[T](implicit parent: Elem): Unit = parent().append(document.createElement("br"))
 
   def table[T](contents: => T)(implicit parent: Elem): T = add("table")(contents)
   def tr[T](contents: => T)(implicit parent: Elem): T = add("tr")(contents)

@@ -41,18 +41,20 @@ object Bogenelemente {
   def spalten_selektoren(): Unit = {
     implicit val context: Elem = body
     // FIXME ein-/ausklappbar mit Überschrift
-    p(checkbox("Zeige Grundwerte", labelRight = true)(box =>
-      setClassVisibility("Grundwerte", if (box.checked) "" else "collapse")
-    ))
-    p(checkbox("Zeige Probe", labelRight = true)(box =>
-      setClassVisibility("Probe", if (box.checked) "" else "collapse")
-    ))
-    p(checkbox("Zeige Steigerungsfaktor", labelRight = true)(box =>
-      setClassVisibility("Steigerungsfaktor", if (box.checked) "" else "collapse")
-    ))
-    p(checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
-      setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
-    ))
+    p {
+      checkbox("Zeige Grundwerte", labelRight = true)(box =>
+        setClassVisibility("Grundwerte", if (box.checked) "" else "collapse")
+      ); br
+      checkbox("Zeige Probe", labelRight = true)(box =>
+        setClassVisibility("Probe", if (box.checked) "" else "collapse")
+      ); br
+      checkbox("Zeige Steigerungsfaktor", labelRight = true)(box =>
+        setClassVisibility("Steigerungsfaktor", if (box.checked) "" else "collapse")
+      ); br
+      checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
+        setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
+      )
+    }
   }
 
   def talentwerte(dsa: DSA5): Unit = {
