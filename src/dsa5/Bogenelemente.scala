@@ -61,7 +61,7 @@ object Bogenelemente {
               element.replaceChildren(s"Σ AP ${ap.value}")
             )
           }
-          th { clazz(spalten(2)); append("Probe") }
+          th { clazz(spalten(2)); append("Werte") }
           th { clazz(spalten(3)); append("BE") }
           th { clazz(spalten(4)); append("SF") }
           th { clazz(spalten(5)); append("TW") }
