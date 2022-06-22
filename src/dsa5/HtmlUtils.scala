@@ -1,23 +1,27 @@
 package dsa5
 
 import org.scalajs.dom.html.Input
-import org.scalajs.dom.{Element, Event, Node, document}
+import org.scalajs.dom.{Event, HTMLElement, Node, document}
 
 import scala.scalajs.js.|
 
 object HtmlUtils {
   /** Used as implicit to provide changing context. Note that instances of this (mutable) class
     * MUST NOT be references by event listeners. */
-  class Elem(parent: Element) {
-    private var stack: List[Element] = List(parent)
-    def apply(): Element = stack.head
+  class Elem(parent: HTMLElement) {
+    private var stack: List[HTMLElement] = List(parent)
+    def apply(): HTMLElement = stack.head
     private[HtmlUtils] def pop(): Unit = stack = stack.tail
-    private[HtmlUtils] def push(element: Element): Unit = stack ::= element
+    private[HtmlUtils] def push(element: HTMLElement): Unit = stack ::= element
   }
   def body: Elem = new Elem(document.body)
 
+  implicit class RichHTMLElement(val element: HTMLElement) extends AnyVal {
+    def onEvent(eventType: String)(f: => Any): Unit = element.addEventListener(eventType, (_: Event) => f)
+  }
+
   private def add[T](tagName: String)(contents: => T)(implicit parent: Elem): T = {
-    parent.push(document.createElement(tagName).tap(parent().append(_)))
+    parent.push(document.createElement(tagName).tap(parent().append(_)).asInstanceOf[HTMLElement])
     contents.tap(_ => parent.pop())
   }
 
@@ -47,7 +51,7 @@ object HtmlUtils {
       .tap(_.`type` = "checkbox")
       .tap(_.checked = checked)
       .tap { input =>
-        input.addEventListener("input", { _: Event => listener(input) } )
+        input.onEvent("input")(listener(input))
         document.createElement("label").tap { labelElement =>
           if (labelRight) labelElement.append(input, label) else labelElement.append(label, input)
           parent().append(labelElement)
@@ -61,7 +65,7 @@ object HtmlUtils {
       .tap(_.min = min.toString)
       .tap(_.max = max.toString)
       .tap(_.value = value.toString)
-      .tap(input => input.addEventListener("input", { _: Event => listener(input) } ))
+      .tap(input => input.onEvent("input")(listener(input)))
       .tap(parent().append(_))
   }
 }

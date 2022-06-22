@@ -1,7 +1,6 @@
 package dsa5
 
 import dsa5.HtmlUtils._
-import org.scalajs.dom.{Event, HTMLElement}
 
 object Bogenelemente {
   def ap_gesamt(dsa: DSA5): Unit = {
@@ -60,10 +59,10 @@ object Bogenelemente {
         checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
           setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
         )
-        val selektoren = context().asInstanceOf[HTMLElement]
-        schalter.addEventListener("click", { _: Event =>
-          if (selektoren.style.display == "none") selektoren.style.display = "" else selektoren.style.display = "none"
-        })
+        val style = context().style
+        schalter.onEvent("click")(
+          if (style.display == "none") style.display = "" else style.display = "none"
+        )
       }
     }
   }
