@@ -1,6 +1,6 @@
 package dsa5
 
-import org.scalajs.dom.html.Input
+import org.scalajs.dom.html.{Button, Input}
 import org.scalajs.dom.{Event, HTMLElement, Node, document}
 
 import scala.scalajs.js.|
@@ -27,7 +27,7 @@ object HtmlUtils {
 
   def p[T](contents: => T)(implicit parent: Elem): T = add("p")(contents)
   def div[T](contents: => T)(implicit parent: Elem): T = add("div")(contents)
-  def br[T](implicit parent: Elem): Unit = parent().append(document.createElement("br"))
+  def br(implicit parent: Elem): Unit = parent().append(document.createElement("br"))
 
   def table[T](contents: => T)(implicit parent: Elem): T = add("table")(contents)
   def tr[T](contents: => T)(implicit parent: Elem): T = add("tr")(contents)
@@ -66,6 +66,21 @@ object HtmlUtils {
       .tap(_.max = max.toString)
       .tap(_.value = value.toString)
       .tap(input => input.onEvent("input")(listener(input)))
+      .tap(parent().append(_))
+  }
+
+  def stringInput(value: String)(listener: Input => Any)(implicit parent: Elem): Input = {
+    document.createElement("input").asInstanceOf[Input]
+      .tap(_.`type` = "text")
+      .tap(_.value = value)
+      .tap(input => input.onEvent("input")(listener(input)))
+      .tap(parent().append(_))
+  }
+
+  def button(label: String)(listener: => Any)(implicit parent: Elem): Button = {
+    document.createElement("button").asInstanceOf[Button]
+      .tap(_.onEvent("click")(listener))
+      .tap(_.append(label))
       .tap(parent().append(_))
   }
 }

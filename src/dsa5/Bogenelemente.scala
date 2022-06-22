@@ -113,4 +113,21 @@ object Bogenelemente {
       }
     }
   }
+
+  def speichern_laden(dsa: DSA5): Unit = {
+    implicit val context: Elem = body
+    p {
+      stringInput("Heldenbogen.json") { input =>
+        println(input.value)
+      }
+      append(" ")
+      button("Speichern") {
+        println("Speichern")
+      }
+      append(" ")
+      button("Laden") {
+        println("Laden")
+      }
+    }
+  }
 }

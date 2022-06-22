@@ -14,5 +14,6 @@ object Main {
     Bogenelemente.grundwerte(dsa)
     Bogenelemente.spalten_selektoren()
     Bogenelemente.talentwerte(dsa)
+    Bogenelemente.speichern_laden(dsa)
   }
 }
