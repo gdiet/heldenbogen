@@ -1,6 +1,7 @@
 package dsa5
 
 import dsa5.HtmlUtils._
+import org.scalajs.dom.{Event, HTMLElement}
 
 object Bogenelemente {
   def ap_gesamt(dsa: DSA5): Unit = {
@@ -42,18 +43,28 @@ object Bogenelemente {
     implicit val context: Elem = body
     // FIXME ein-/ausklappbar mit Überschrift
     p {
-      checkbox("Zeige Grundwerte", labelRight = true)(box =>
-        setClassVisibility("Grundwerte", if (box.checked) "" else "collapse")
-      ); br
-      checkbox("Zeige Probe", labelRight = true)(box =>
-        setClassVisibility("Probe", if (box.checked) "" else "collapse")
-      ); br
-      checkbox("Zeige Steigerungsfaktor", labelRight = true)(box =>
-        setClassVisibility("Steigerungsfaktor", if (box.checked) "" else "collapse")
-      ); br
-      checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
-        setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
-      )
+      val schalter = div {
+        append("Talente: Sichtbare Spalten (hier klicken)")
+        context()
+      }
+      div {
+        checkbox("Zeige Grundwerte", labelRight = true)(box =>
+          setClassVisibility("Grundwerte", if (box.checked) "" else "collapse")
+        ); br
+        checkbox("Zeige Probe", labelRight = true)(box =>
+          setClassVisibility("Probe", if (box.checked) "" else "collapse")
+        ); br
+        checkbox("Zeige Steigerungsfaktor", labelRight = true)(box =>
+          setClassVisibility("Steigerungsfaktor", if (box.checked) "" else "collapse")
+        ); br
+        checkbox("Zeige Abenteuerpunkte", labelRight = true)(box =>
+          setClassVisibility("Abenteuerpunkte", if (box.checked) "" else "collapse")
+        )
+        val selektoren = context().asInstanceOf[HTMLElement]
+        schalter.addEventListener("click", { _: Event =>
+          if (selektoren.style.display == "none") selektoren.style.display = "" else selektoren.style.display = "none"
+        })
+      }
     }
   }
 
