@@ -1,6 +1,9 @@
 package dsa5
 
 import dsa5.HtmlUtils._
+import org.scalajs.dom.FileReader
+
+import scala.scalajs.js.{JSON, isUndefined}
 
 object Bogenelemente {
   def ap_gesamt(dsa: DSA5): Unit = {
@@ -125,9 +128,25 @@ object Bogenelemente {
         scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.zahleingabenJson)
       }
       append(" ")
-      button("Laden") {
-        println("Laden")
-      }
+      val input = fileInput // TODO Da kann man sicher noch aufräumen
+        .tap(_.style = "display:none")
+        .tap(input => input.onchange = { _ =>
+          Option(input.files).flatMap(files => Option(files(0))).foreach(file =>
+            new FileReader()
+              .tap(reader => reader.onload = { _ =>
+                val read = Option(reader.result).map(_.toString).getOrElse("{}")
+                val json = JSON.parse(read)
+                println(read)
+                dsa.zahleingaben.foreach { case (key, value) =>
+                  val newValue = json.selectDynamic(key)
+                  println(s"new value for $key is $newValue - ${isUndefined(newValue)} - ${newValue.asInstanceOf[Int]}")
+                  if (!isUndefined(newValue)) value.set(newValue.asInstanceOf[Int])
+                }
+              })
+              .tap(_.readAsText(file))
+          )
+        })
+      button("Laden")(input.click())
     }
   }
 }
