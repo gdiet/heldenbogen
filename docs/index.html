@@ -8,6 +8,16 @@
   </head>
   <body>
     <h2>Heldenbogen</h2>
+    <script>
+      function speichern(dateiname, datei) {
+        const file      = new Blob([datei], {type : 'application/json'})
+        const anchor    = document.createElement('a')
+        anchor.href     = URL.createObjectURL(file)
+        anchor.download = dateiname
+        anchor.click()
+        URL.revokeObjectURL(anchor.href)
+      }
+    </script>
     <script src="./main.js"></script>
   </body>
 </html>

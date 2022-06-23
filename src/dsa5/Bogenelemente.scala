@@ -117,12 +117,14 @@ object Bogenelemente {
   def speichern_laden(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     p {
-      stringInput("Heldenbogen.json") { input =>
-        println(input.value)
-      }
+      val dateiname = stringInput("Heldenbogen.json") { identity } // FIXME wahrscheinlich kann man das eleganter coden
       append(" ")
       button("Speichern") {
-        println("Speichern")
+        val datei = // FIXME das zur Methode von DSA5 machen?
+          dsa.zahleingaben
+            .map { case (key, value) => s"[\"$key\",${value.value}]" }
+            .mkString ("{\"zahleingaben\":[",",","]}")
+        scala.scalajs.js.Dynamic.global.speichern(dateiname.value, datei)
       }
       append(" ")
       button("Laden") {
