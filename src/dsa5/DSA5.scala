@@ -5,8 +5,8 @@ import dsa5.DSA5._
 class DSA5 {
   var zahleingaben: Map[String, SettableValue] = Map()
   def zahleingabenJson: String = zahleingaben
-    .map { case (key, value) => s"[\"$key\",${value.value}]" }
-    .mkString ("{\"zahleingaben\":[",",","]}")
+    .map { case (key, value) => s"\"$key\":${value.value}" }
+    .mkString ("{",",","}")
 
   var berechnet: Map[String, Value] = Map()
 
