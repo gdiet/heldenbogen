@@ -69,11 +69,10 @@ object HtmlUtils {
       .tap(parent().append(_))
   }
 
-  def stringInput(value: String)(listener: Input => Any)(implicit parent: Elem): Input = {
+  def stringInput(value: String)(implicit parent: Elem): Input = {
     document.createElement("input").asInstanceOf[Input]
       .tap(_.`type` = "text")
       .tap(_.value = value)
-      .tap(input => input.onEvent("input")(listener(input)))
       .tap(parent().append(_))
   }
 
