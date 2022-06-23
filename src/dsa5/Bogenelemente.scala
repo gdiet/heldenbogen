@@ -117,7 +117,7 @@ object Bogenelemente {
   def speichern_laden(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     p {
-      val dateiname = stringInput("Heldenbogen.json")
+      val dateiname = textInput("Heldenbogen.json")
       append(" ")
       button("Speichern") {
         scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.zahleingabenJson)

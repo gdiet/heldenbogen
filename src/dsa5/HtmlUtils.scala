@@ -59,22 +59,23 @@ object HtmlUtils {
       }
   }
 
-  def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input = {
+  def input(inputType: String, value: String)(listener: Input => Any)(implicit parent: Elem): Input =
     document.createElement("input").asInstanceOf[Input]
-      .tap(_.`type` = "number")
-      .tap(_.min = min.toString)
-      .tap(_.max = max.toString)
-      .tap(_.value = value.toString)
+      .tap(_.`type` = inputType)
+      .tap(_.value = value)
       .tap(input => input.onEvent("input")(listener(input)))
       .tap(parent().append(_))
-  }
 
-  def stringInput(value: String)(implicit parent: Elem): Input = {
-    document.createElement("input").asInstanceOf[Input]
-      .tap(_.`type` = "text")
-      .tap(_.value = value)
-      .tap(parent().append(_))
-  }
+  def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input =
+    input("number", value.toString)(listener)
+      .tap(_.min = min.toString)
+      .tap(_.max = max.toString)
+
+  def textInput(value: String)(implicit parent: Elem): Input =
+    input("text", value)(identity)
+
+  def fileInput(implicit parent: Elem): Input =
+    input("file", "")(identity)
 
   def button(label: String)(listener: => Any)(implicit parent: Elem): Button = {
     document.createElement("button").asInstanceOf[Button]
