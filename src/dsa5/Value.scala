@@ -10,7 +10,7 @@ trait Value {
 
 abstract class SettableValue(initialValue: Int) extends Value {
   private var _value: Int = initialValue
-  override final def value: Int = _value
+  override final def value: Int = _value // TODO vielleicht besser "stringValue"?
   def ap: Value
   protected def validate(newValue: Int): Boolean
   final def set(newValue: Int): Boolean =
