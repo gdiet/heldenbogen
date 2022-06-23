@@ -29,9 +29,10 @@ object Bogenelemente {
           td {
             append(s"$gw_key ")
             val gw = dsa.zahleingaben(gw_key)
-            numberInput(8, 19, gw.value) { input =>
+            val input = numberInput(8, 19, gw.value) { input =>
               if (!input.value.toIntOption.exists(gw.set)) input.value = gw.value.toString
             }
+            gw.observe(_ => input.value = gw.value.toString)
           }
         }
       }
@@ -100,9 +101,10 @@ object Bogenelemente {
             td { clazz(spalten(3)); append(be) }
             td { clazz(spalten(4)); append(s"$sf") }
             td { clazz(spalten(5))
-              numberInput(0, 20, talentwert.value) { input =>
+              val input = numberInput(0, 20, talentwert.value) { input =>
                 if (!input.value.toIntOption.exists(talentwert.set)) input.value = talentwert.value.toString
               }
+              talentwert.observe(_ => input.value = talentwert.value.toString)
             }
             td { clazz(spalten(6))
               val element = context() // Get the current context Element itself.
