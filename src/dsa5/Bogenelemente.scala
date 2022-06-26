@@ -135,6 +135,9 @@ object Bogenelemente {
 
   private def ladenVonDatei(input: org.scalajs.dom.html.Input, dsa: DSA5): Unit =
     Option(input.files).flatMap(files => Option(files(0))).foreach { file =>
+      // Wenn die Datei ausgewählt wird, die zuletzt bereits ausgewählt wurde, wird kein 'change' Event ausgelöst.
+      // Indem 'value' zurückgesetzt wird stellen wir sicher, dass jede gültige Dateiauswahl ein 'change' Event auslöst.
+      input.value = ""
       val reader = new org.scalajs.dom.FileReader()
       reader.onload = { _ =>
         val read = Option(reader.result).map(_.toString).getOrElse("{}")
