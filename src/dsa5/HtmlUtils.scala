@@ -66,12 +66,11 @@ object HtmlUtils {
       .tap(input => input.onEvent("input")(listener(input)))
       .tap(parent().append(_))
 
-  def numberInput(min: Int, max: Int, value: String)(listener: Input => Any)(implicit parent: Elem): Input = {
-    // TODO in der gleichen Weise wie textInput verknüpfen
-    input("number", value)(listener)
+  def numberInput(min: Int, max: Int, linkTo: SettableValue)(implicit parent: Elem): Input =
+    input("number", linkTo.value)(feld => linkTo.set(feld.value))
+      .tap(feld => linkTo.observe(_ => feld.value = linkTo.value))
       .tap(_.min = min.toString)
       .tap(_.max = max.toString)
-  }
 
   def textInput(linkTo: SettableValue)(implicit parent: Elem): Input =
     input("text", "")(feld => linkTo.set(feld.value))

@@ -13,12 +13,12 @@ abstract class SettableValue(initialValue: String) extends Value {
   override final def value: String = _value
   def ap: Value
   protected def validate(newValue: String): Boolean
+  /** Ruft auf jeden Fall die Observer auf. */
   final def set(newValue: String): Boolean =
-    if (validate(newValue)) {
-      _value = newValue
+    validate(newValue).tap { isValid =>
+      if (isValid) _value = newValue
       observers.foreach(_(this))
-      true
-    } else false
+    }
 }
 
 final class Texteingabe(initialwert: String) extends SettableValue(initialwert) {

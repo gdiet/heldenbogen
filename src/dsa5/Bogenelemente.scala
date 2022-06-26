@@ -34,11 +34,7 @@ object Bogenelemente {
         DSA5.gw_keys.foreach { gw_key =>
           td {
             append(s"$gw_key ")
-            val gw = dsa.eingaben(gw_key)
-            val input = numberInput(8, 19, gw.value) { input =>
-              if (!gw.set(input.value)) input.value = gw.value
-            }
-            gw.observe(_ => input.value = gw.value)
+            numberInput(8, 19, dsa.eingaben(gw_key))
           }
         }
       }
@@ -105,12 +101,7 @@ object Bogenelemente {
             }
             td { clazz(spalten(3)); append(be) }
             td { clazz(spalten(4)); append(s"$sf") }
-            td { clazz(spalten(5))
-              val input = numberInput(0, 20, talentwert.value) { input =>
-                if (!talentwert.set(input.value)) input.value = talentwert.value
-              }
-              talentwert.observe(_ => input.value = talentwert.value)
-            }
+            td { clazz(spalten(5)); numberInput(0, 20, talentwert) }
             td { clazz(spalten(6))
               val element = context() // Get the current context Element itself.
               talentwert.observe(_ => element.replaceChildren(s"${talentwert.ap.value}") )
