@@ -72,6 +72,18 @@ object DSA5 {
       ("Überreden",           "MU/IN/CH", "N", 3),
       ("Verkleiden",          "IN/CH/GE", "?", 2),
       ("Willenskraft",        "MU/IN/CH", "N", 4),
+    ),
+    "Naturtalente" -> Seq(
+      ("Fährtensuchen",  "MU/IN/GE", "J", 3),
+      ("Fesseln",        "KL/FF/KK", "?", 1),
+      ("Fischen/Angeln", "FF/GE/KO", "?", 1),
+      ("Orientierung",   "KL/IN/IN", "N", 2),
+      ("Pflanzenkunde",  "KL/FF/KO", "?", 3),
+      ("Tierkunde",      "MU/MU/CH", "J", 3),
+      ("Wildnisleben",   "MU/GE/KO", "J", 3),
     )
   )
+  /*
+
+   */
 }
