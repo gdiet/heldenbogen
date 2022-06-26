@@ -71,8 +71,8 @@ object HtmlUtils {
       .tap(_.min = min.toString)
       .tap(_.max = max.toString)
 
-  def textInput(value: String)(implicit parent: Elem): Input =
-    input("text", value)(identity)
+  def textInput(value: String, listener: Input => Any = identity)(implicit parent: Elem): Input =
+    input("text", value)(listener)
 
   def fileInput(implicit parent: Elem): Input =
     input("file", "")(identity)

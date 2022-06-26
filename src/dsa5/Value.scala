@@ -21,6 +21,11 @@ abstract class SettableValue(initialValue: String) extends Value {
     } else false
 }
 
+final class Texteingabe() extends SettableValue("") {
+  override def ap: Value = new Value { override def value: String = "0" }
+  override protected def validate(newValue: String): Boolean = true
+}
+
 final class Grundwert() extends SettableValue("10") { grundwert =>
   override protected def validate(newValue: String): Boolean =
     newValue.toIntOption.exists(gw => gw >= 8 && gw <= 19)

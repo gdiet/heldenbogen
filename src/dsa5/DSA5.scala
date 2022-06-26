@@ -3,8 +3,8 @@ package dsa5
 import dsa5.DSA5._
 
 class DSA5 {
-  var zahleingaben: Map[String, SettableValue] = Map()
-  def zahleingabenJson: String = zahleingaben
+  var eingaben: Map[String, SettableValue] = Map()
+  def eingabenJson: String = eingaben
     .map { case (key, value) => s"\"$key\":\"${value.value}\"" }
     .mkString ("{",",","}")
 
@@ -13,16 +13,18 @@ class DSA5 {
   // Grundwerte und Abenteuerpunkte Grundwerte initialisieren
   new Abenteuerpunkte().tap { ap_grundwerte =>
     gw_keys.foreach { key =>
-      zahleingaben += key -> new Grundwert().tap(gw => ap_grundwerte.plus(gw.ap))
+      eingaben += key -> new Grundwert().tap(gw => ap_grundwerte.plus(gw.ap))
     }
     berechnet += "AP Grundwerte" -> ap_grundwerte
   }
+
+  eingaben += "Name" -> new Texteingabe()
 
   // Talentewerte und Abenteuerpunkte Talentwerte initialisieren
   talentTabelle.foreach { case (bereich, talente) =>
     new Abenteuerpunkte().tap { ap_bereich =>
       talente.foreach { case (talent, _, _, steigerungsfaktor) =>
-        zahleingaben += talent -> new Talentwert(steigerungsfaktor).tap(tw => ap_bereich.plus(tw.ap))
+        eingaben += talent -> new Talentwert(steigerungsfaktor).tap(tw => ap_bereich.plus(tw.ap))
       }
       berechnet += s"AP $bereich" -> ap_bereich
     }

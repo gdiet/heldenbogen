@@ -5,8 +5,16 @@ import dsa5.HtmlUtils._
 import scala.scalajs.js.{JSON, isUndefined}
 
 object Bogenelemente {
-  def ap_gesamt(dsa: DSA5): Unit = {
+  def bogenkopf(dsa: DSA5): Unit = {
     implicit val context: Elem = body
+    p {
+      append("Name des Helden: ")
+      val name_gespeichert = dsa.eingaben("Name")
+      // TODO diese Zweiweg-Verknüpfung kann doch sicher vereinfacht werden...
+      textInput("", { name => name_gespeichert.set(name.value) })
+        .tap(name => name_gespeichert.observe(_ => name.value = name_gespeichert.value))
+        .tap(_.id = "Name des Helden")
+    }
     p {
       val element = context() // Get the current context Element itself.
       dsa.berechnet(s"AP").observe(ap =>
@@ -30,7 +38,7 @@ object Bogenelemente {
         DSA5.gw_keys.foreach { gw_key =>
           td {
             append(s"$gw_key ")
-            val gw = dsa.zahleingaben(gw_key)
+            val gw = dsa.eingaben(gw_key)
             val input = numberInput(8, 19, gw.value) { input =>
               if (!gw.set(input.value)) input.value = gw.value
             }
@@ -90,13 +98,13 @@ object Bogenelemente {
           th { clazz(spalten(6)); append("AP") }
         }
         talente.foreach { case (talent, probe, be, sf) =>
-          val talentwert = dsa.zahleingaben(talent)
+          val talentwert = dsa.eingaben(talent)
           tr {
             td { clazz(spalten(0)); append(talent) }
             td { clazz(spalten(1)); append(probe) }
             td { clazz(spalten(2))
               val element = context() // Get the current context Element itself.
-              val werte = probe.split('/').map(dsa.zahleingaben)
+              val werte = probe.split('/').map(dsa.eingaben)
               werte.foreach(_.observe(_ => element.replaceChildren(werte.map(_.value).mkString("/"))))
             }
             td { clazz(spalten(3)); append(be) }
@@ -123,7 +131,7 @@ object Bogenelemente {
       val dateiname = textInput("Heldenbogen.json")
       append(" ")
       // Die 'speichern' Funktion ist in der index.html definiert
-      button("Speichern") (scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.zahleingabenJson))
+      button("Speichern") (scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.eingabenJson))
       append(" ")
       // Für einheitliche Oberfläche: Unsichtbarer FileInput dessen Click-Event vom sichtbaren Button ausgelöst wird
       val input = fileInput
@@ -142,7 +150,7 @@ object Bogenelemente {
       reader.onload = { _ =>
         val read = Option(reader.result).map(_.toString).getOrElse("{}")
         val json = JSON.parse(read)
-        dsa.zahleingaben.foreach { case (key, value) =>
+        dsa.eingaben.foreach { case (key, value) =>
           val newValue = json.selectDynamic(key)
           if (isUndefined(newValue))
             println(s"Bogen laden: Für $key wurde in der Datei kein Wert gefunden.")
