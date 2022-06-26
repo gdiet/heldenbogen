@@ -13,10 +13,3 @@ td.Behinderung, td.Steigerungsfaktor, td.Abenteuerpunkte {
 input[type=number] {
   width: 2.6em;
 }
-
-/*
-FIXME entfernen wenn nicht mehr benötigt: Beispiel wie man eine Spalte ausblendet.
-col.Behinderung {
-  visibility:collapse;
-}
-*/
