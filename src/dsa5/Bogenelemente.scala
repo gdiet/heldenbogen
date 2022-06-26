@@ -44,7 +44,6 @@ object Bogenelemente {
 
   def spalten_selektoren(): Unit = {
     implicit val context: Elem = body
-    // FIXME ein-/ausklappbar mit Überschrift
     p {
       val schalter = div {
         append("Talente: Sichtbare Spalten (hier klicken)")
