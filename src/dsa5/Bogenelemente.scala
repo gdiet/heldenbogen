@@ -1,7 +1,6 @@
 package dsa5
 
 import dsa5.HtmlUtils._
-import org.scalajs.dom.FileReader
 
 import scala.scalajs.js.{JSON, isUndefined}
 
@@ -123,30 +122,31 @@ object Bogenelemente {
     p {
       val dateiname = textInput("Heldenbogen.json")
       append(" ")
-      button("Speichern") {
-        scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.zahleingabenJson)
-      }
+      // Die 'speichern' Funktion ist in der index.html definiert
+      button("Speichern") (scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.zahleingabenJson))
       append(" ")
-      val input = fileInput // TODO Da kann man sicher noch aufräumen
+      // Für einheitliche Oberfläche: Unsichtbarer FileInput dessen Click-Event vom sichtbaren Button ausgelöst wird
+      val input = fileInput
         .tap(_.style = "display:none")
-        .tap(input => input.onchange = { _ =>
-          Option(input.files).flatMap(files => Option(files(0))).foreach(file =>
-            new FileReader()
-              .tap(reader => reader.onload = { _ =>
-                val read = Option(reader.result).map(_.toString).getOrElse("{}")
-                val json = JSON.parse(read)
-                dsa.zahleingaben.foreach { case (key, value) =>
-                  val newValue = json.selectDynamic(key)
-                  if (isUndefined(newValue))
-                    println(s"Bogen laden: Für $key wurde in der Datei kein Wert gefunden.")
-                  else if (!value.set(newValue.asInstanceOf[String]))
-                    println(s"Bogen laden: Der Wert $newValue für $key in der Datei ist ungültig.")
-                }
-              })
-              .tap(_.readAsText(file))
-          )
-        })
+        .tap(input => input.onchange = { _ => ladenVonDatei(input, dsa) })
       button("Laden")(input.click())
     }
   }
+
+  private def ladenVonDatei(input: org.scalajs.dom.html.Input, dsa: DSA5): Unit =
+    Option(input.files).flatMap(files => Option(files(0))).foreach { file =>
+      val reader = new org.scalajs.dom.FileReader()
+      reader.onload = { _ =>
+        val read = Option(reader.result).map(_.toString).getOrElse("{}")
+        val json = JSON.parse(read)
+        dsa.zahleingaben.foreach { case (key, value) =>
+          val newValue = json.selectDynamic(key)
+          if (isUndefined(newValue))
+            println(s"Bogen laden: Für $key wurde in der Datei kein Wert gefunden.")
+          else if (!value.set(newValue.asInstanceOf[String]))
+            println(s"Bogen laden: Der Wert $newValue für $key in der Datei ist ungültig.")
+        }
+      }
+      reader.readAsText(file)
+    }
 }
