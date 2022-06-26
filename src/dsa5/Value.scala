@@ -2,18 +2,18 @@ package dsa5
 
 /** Implementations MUST call the observers on value changes. */
 trait Value {
-  def value: Int
+  def value: String
   protected var observers: Vector[Value => Any] = Vector()
   /** Registers AND IMMEDIATELY CALLS the observer. */
   final def observe(f: Value => Any): Unit = { observers +:= f; f(this) }
 }
 
-abstract class SettableValue(initialValue: Int) extends Value {
-  private var _value: Int = initialValue
-  override final def value: Int = _value // TODO vielleicht besser "stringValue"?
+abstract class SettableValue(initialValue: String) extends Value {
+  private var _value: String = initialValue
+  override final def value: String = _value
   def ap: Value
-  protected def validate(newValue: Int): Boolean
-  final def set(newValue: Int): Boolean =
+  protected def validate(newValue: String): Boolean
+  final def set(newValue: String): Boolean =
     if (validate(newValue)) {
       _value = newValue
       observers.foreach(_(this))
@@ -21,20 +21,20 @@ abstract class SettableValue(initialValue: Int) extends Value {
     } else false
 }
 
-final class Grundwert(initialValue: Int) extends SettableValue(initialValue) { grundwert =>
-  override protected def validate(newValue: Int): Boolean = newValue >= 8 && newValue <= 19
-  assert(validate(value), s"Initial value $initialValue not valid.")
+final class Grundwert() extends SettableValue("10") { grundwert =>
+  override protected def validate(newValue: String): Boolean =
+    newValue.toIntOption.exists(gw => gw >= 8 && gw <= 19)
   val ap: Value = new Value {
-    override def value: Int = DSA5.gw_ap(grundwert.value)
+    override def value: String = DSA5.gw_ap(grundwert.value.toInt)
     grundwert.observe(_ => observers.foreach(_(this)))
   }
 }
 
-final class Talentwert(initialValue: Int, steigerungsFaktor: Int) extends SettableValue(initialValue) { talentwert =>
-  override protected def validate(newValue: Int): Boolean = newValue >= 0 && newValue <= 20
-  assert(validate(value), s"Initial value $initialValue not valid.")
+final class Talentwert(steigerungsFaktor: Int) extends SettableValue("0") { talentwert =>
+  override protected def validate(newValue: String): Boolean =
+    newValue.toIntOption.exists(tw => tw >= 0 && tw <= 20)
   val ap: Value = new Value {
-    override def value: Int = DSA5.talente_ap(talentwert.value) * steigerungsFaktor
+    override def value: String = (DSA5.talente_ap(talentwert.value.toInt) * steigerungsFaktor).toString
     talentwert.observe(_ => observers.foreach(_(this)))
   }
 }
@@ -42,5 +42,5 @@ final class Talentwert(initialValue: Int, steigerungsFaktor: Int) extends Settab
 final class Abenteuerpunkte extends Value {
   var summanden: Vector[Value] = Vector()
   def plus(value: Value): Unit = { summanden +:= value; value.observe(_ => observers.foreach(_(this))) }
-  override def value: Int = summanden.map(_.value).sum
+  override def value: String = summanden.map(_.value.toInt).sum.toString
 }

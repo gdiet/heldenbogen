@@ -66,8 +66,8 @@ object HtmlUtils {
       .tap(input => input.onEvent("input")(listener(input)))
       .tap(parent().append(_))
 
-  def numberInput(min: Int, max: Int, value: Int)(listener: Input => Any)(implicit parent: Elem): Input =
-    input("number", value.toString)(listener)
+  def numberInput(min: Int, max: Int, value: String)(listener: Input => Any)(implicit parent: Elem): Input =
+    input("number", value)(listener)
       .tap(_.min = min.toString)
       .tap(_.max = max.toString)
 

@@ -5,7 +5,7 @@ import dsa5.DSA5._
 class DSA5 {
   var zahleingaben: Map[String, SettableValue] = Map()
   def zahleingabenJson: String = zahleingaben
-    .map { case (key, value) => s"\"$key\":${value.value}" }
+    .map { case (key, value) => s"\"$key\":\"${value.value}\"" }
     .mkString ("{",",","}")
 
   var berechnet: Map[String, Value] = Map()
@@ -13,7 +13,7 @@ class DSA5 {
   // Grundwerte und Abenteuerpunkte Grundwerte initialisieren
   new Abenteuerpunkte().tap { ap_grundwerte =>
     gw_keys.foreach { key =>
-      zahleingaben += key -> new Grundwert(10).tap(gw => ap_grundwerte.plus(gw.ap))
+      zahleingaben += key -> new Grundwert().tap(gw => ap_grundwerte.plus(gw.ap))
     }
     berechnet += "AP Grundwerte" -> ap_grundwerte
   }
@@ -22,7 +22,7 @@ class DSA5 {
   talentTabelle.foreach { case (bereich, talente) =>
     new Abenteuerpunkte().tap { ap_bereich =>
       talente.foreach { case (talent, _, _, steigerungsfaktor) =>
-        zahleingaben += talent -> new Talentwert(0, steigerungsfaktor).tap(tw => ap_bereich.plus(tw.ap))
+        zahleingaben += talent -> new Talentwert(steigerungsfaktor).tap(tw => ap_bereich.plus(tw.ap))
       }
       berechnet += s"AP $bereich" -> ap_bereich
     }
@@ -39,7 +39,7 @@ object DSA5 {
   def gw_keys: Array[String] = Array("MU","KL","IN","CH","FF","GE","KO","KK")
 
   // Abenteuerpunkte für Grundwerte: Bis 8 -> 0 AP, maximaler Grundwert 19
-  def gw_ap: Array[Int] = Array(0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390)
+  def gw_ap: Array[String] = Array(0,0,0,0,0,0,0,0,0, 15,30,45,60,75,90, 120,165,225,300,390).map(_.toString)
 
   // Abenteuerpunkte für Talentwerte, maximaler Talentwert 20
   def talente_ap: Array[Int] = Array(0,1,2,3,4,5,6,7,8,9,10,11,12, 14,17,21,26,32,39,47,56)

@@ -33,9 +33,9 @@ object Bogenelemente {
             append(s"$gw_key ")
             val gw = dsa.zahleingaben(gw_key)
             val input = numberInput(8, 19, gw.value) { input =>
-              if (!input.value.toIntOption.exists(gw.set)) input.value = gw.value.toString
+              if (!gw.set(input.value)) input.value = gw.value
             }
-            gw.observe(_ => input.value = gw.value.toString)
+            gw.observe(_ => input.value = gw.value)
           }
         }
       }
@@ -105,9 +105,9 @@ object Bogenelemente {
             td { clazz(spalten(4)); append(s"$sf") }
             td { clazz(spalten(5))
               val input = numberInput(0, 20, talentwert.value) { input =>
-                if (!input.value.toIntOption.exists(talentwert.set)) input.value = talentwert.value.toString
+                if (!talentwert.set(input.value)) input.value = talentwert.value
               }
-              talentwert.observe(_ => input.value = talentwert.value.toString)
+              talentwert.observe(_ => input.value = talentwert.value)
             }
             td { clazz(spalten(6))
               val element = context() // Get the current context Element itself.
@@ -136,11 +136,12 @@ object Bogenelemente {
               .tap(reader => reader.onload = { _ =>
                 val read = Option(reader.result).map(_.toString).getOrElse("{}")
                 val json = JSON.parse(read)
-                println(read)
                 dsa.zahleingaben.foreach { case (key, value) =>
                   val newValue = json.selectDynamic(key)
-                  println(s"new value for $key is $newValue - ${isUndefined(newValue)} - ${newValue.asInstanceOf[Int]}")
-                  if (!isUndefined(newValue)) value.set(newValue.asInstanceOf[Int])
+                  if (isUndefined(newValue))
+                    println(s"Bogen laden: Für $key wurde in der Datei kein Wert gefunden.")
+                  else if (!value.set(newValue.asInstanceOf[String]))
+                    println(s"Bogen laden: Der Wert $newValue für $key in der Datei ist ungültig.")
                 }
               })
               .tap(_.readAsText(file))
