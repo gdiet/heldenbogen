@@ -9,11 +9,7 @@ object Bogenelemente {
     implicit val context: Elem = body
     p {
       append("Name des Helden: ")
-      val name_gespeichert = dsa.eingaben("Name")
-      // TODO diese Zweiweg-Verknüpfung kann doch sicher vereinfacht werden...
-      textInput("", { name => name_gespeichert.set(name.value) })
-        .tap(name => name_gespeichert.observe(_ => name.value = name_gespeichert.value))
-        .tap(_.id = "Name des Helden")
+      textInput(dsa.eingaben("Name")).tap(_.id = "Name des Helden")
     }
     p {
       val element = context() // Get the current context Element itself.
@@ -128,7 +124,7 @@ object Bogenelemente {
   def speichern_laden(dsa: DSA5): Unit = {
     implicit val context: Elem = body
     p {
-      val dateiname = textInput("Heldenbogen.json")
+      val dateiname = textInput(dsa.eingaben("Dateiname"))
       append(" ")
       // Die 'speichern' Funktion ist in der index.html definiert
       button("Speichern") (scala.scalajs.js.Dynamic.global.speichern(dateiname.value, dsa.eingabenJson))

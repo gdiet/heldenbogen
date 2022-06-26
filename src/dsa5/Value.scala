@@ -21,7 +21,7 @@ abstract class SettableValue(initialValue: String) extends Value {
     } else false
 }
 
-final class Texteingabe() extends SettableValue("") {
+final class Texteingabe(initialwert: String) extends SettableValue(initialwert) {
   override def ap: Value = new Value { override def value: String = "0" }
   override protected def validate(newValue: String): Boolean = true
 }

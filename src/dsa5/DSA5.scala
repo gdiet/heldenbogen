@@ -18,7 +18,8 @@ class DSA5 {
     berechnet += "AP Grundwerte" -> ap_grundwerte
   }
 
-  eingaben += "Name" -> new Texteingabe()
+  eingaben += "Name" -> new Texteingabe("Alrike")
+  eingaben += "Dateiname" -> new Texteingabe("Heldenbogen.json")
 
   // Talentewerte und Abenteuerpunkte Talentwerte initialisieren
   talentTabelle.foreach { case (bereich, talente) =>
